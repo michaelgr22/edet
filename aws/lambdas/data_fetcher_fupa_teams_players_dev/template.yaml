@@ -6,10 +6,16 @@ Description: >
 Parameters:
   stage:
     Type: String
+    AllowedValues:
+      - dev
+      - prod
 
 Globals:
   Function:
     Timeout: 10
+    Environment:
+      Variables:
+        STAGE: !Ref stage
 
 Resources:
   DataFetcherFupaTeamsPlayers:

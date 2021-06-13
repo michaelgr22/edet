@@ -1,6 +1,7 @@
 import json
 import ast
 import logging
+import os
 
 from aws_secretsmanager_client import AwsSecretsManagerClient
 from aws_postgresdb_client import AwsPostgresDBClient
@@ -11,11 +12,7 @@ logger.setLevel(logging.INFO)
 
 
 def connect_to_db():
-
-    aws_secret_client = AwsSecretsManagerClient('edet_pg_d_datafetcher',
-                                                'eu-central-1')
-    secret = ast.literal_eval(aws_secret_client.get_secret())
-
+    secret = get_secret()
     database = 'fupa_teams'
     logger.info("Connect to dbhost:{}".format(secret['host']))
     db = AwsPostgresDBClient(host=secret['host'],
@@ -24,6 +21,18 @@ def connect_to_db():
                              user=secret['username'],
                              password=secret['password'])
     return db
+
+
+def get_secret():
+    stage = os.environ.get('STAGE')
+
+    secret_name = 'edet_pg_d_datafetcher'
+    if stage == 'prod':
+        secret_name = 'edet_pg_p_datafetcher'
+
+    aws_secret_client = AwsSecretsManagerClient(secret_name, 'eu-central-1')
+    secret = ast.literal_eval(aws_secret_client.get_secret())
+    return secret
 
 
 db = connect_to_db()
