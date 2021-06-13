@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  data_fetcher_fupa_teams_players dev
+
+  SAM Template for data_fetcher_fupa_teams_players
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  DataFetcherFupaTeamsPlayersDev:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: data-fetcher-fupa-team-players-dev
+      PackageType: Image
+      Role: arn:aws:iam::084534280195:role/edet-lambda-rds-fullaccess
+      MemorySize: 128
+      Tags:
+        project: edet
+      Description: Fetches Players for all Teams in general.all_teams - dev
+      Events:
+        ScheduledEvent:
+          Type: Schedule
+          Properties:
+            Name: data-fetcher-fupa-team-players-dev-scheduledevent
+            Description: scheduled event to fetch players for all teams
+            Schedule: cron(45 07 * * ? *)
+    Metadata:
+      DockerTag: python3.7-v1
+      DockerContext: ./data_fetcher_fupa_team_players
+      Dockerfile: Dockerfile
+
+Outputs:
+  DataFetcherFupaTeamsPlayersDev:
+    Description: "Function to get Players of Teams from Fupa"
+    Value: !GetAtt DataFetcherFupaTeamsPlayersDev.Arn
