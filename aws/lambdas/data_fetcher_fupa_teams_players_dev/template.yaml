@@ -26,7 +26,7 @@ Resources:
           Properties:
             Name: data-fetcher-fupa-team-players-dev-scheduledevent
             Description: scheduled event to fetch players for all teams
-            Schedule: cron(45 07 * * ? *)
+            Schedule: cron(0 03 * * ? *)
     Metadata:
       DockerTag: python3.7-v1
       DockerContext: ./data_fetcher_fupa_team_players
