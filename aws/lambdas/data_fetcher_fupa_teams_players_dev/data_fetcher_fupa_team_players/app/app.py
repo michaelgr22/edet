@@ -57,12 +57,14 @@ def create_table(table):
 
 
 def insert_players_of_team(table, players):
+    logger.info("Insert Players in table {}".format(table))
     for player in players:
         name = player['name'].split(' ')
         sql = "INSERT INTO \"{}\" (firstname, surname, age, deployments, goals, position, imagelink) VALUES (\'{}\', \'{}\', {}, {}, {}, \'{}\', \'{}\')".format(
             table, name[0], name[1], player['age'], player['deployments'],
             player['goals'], player['position'], player['imagelink'])
         db.execute_sql(sql)
+    logger.info("Players inserted succesfully")
 
 
 def insert():
