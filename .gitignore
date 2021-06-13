@@ -1,2 +1,5 @@
 #credentials
 cred_*
+
+#powershell scripts
+*.ps1
