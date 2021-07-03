@@ -1,0 +1,1 @@
+# edet_fupa_get_standings_of_teams
