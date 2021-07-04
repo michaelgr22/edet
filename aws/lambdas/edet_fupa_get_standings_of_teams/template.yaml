@@ -16,7 +16,7 @@ Globals:
     Environment:
       Variables:
         STAGE: !Ref stage
-        DB: edet
+        DB: !Sub edet_${stage}
         SOURCE_TABLE: sources.teams_source
 
 Resources:

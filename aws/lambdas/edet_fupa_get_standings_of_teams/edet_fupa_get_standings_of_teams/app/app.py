@@ -26,9 +26,9 @@ def connect_to_db():
 def get_secret():
     stage = os.environ.get('STAGE')
 
-    secret_name = 'edet_pg_d_datafetcher'
+    secret_name = 'edet_pg_d_datafetcher_secret'
     if stage == 'prod':
-        secret_name = 'edet_pg_p_datafetcher'
+        secret_name = 'edet_pg_p_datafetcher_secret'
 
     aws_secret_client = AwsSecretsManagerClient(secret_name, 'eu-central-1')
     secret = ast.literal_eval(aws_secret_client.get_secret())
