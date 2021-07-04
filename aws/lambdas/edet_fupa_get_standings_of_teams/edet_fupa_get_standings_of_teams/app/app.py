@@ -113,11 +113,7 @@ def insert_standings_of_teams():
 
 
 def lambda_handler(event, context):
-    statuscode = 200
-    try:
-        insert_standings_of_teams()
-    except:
-        statuscode = 400
+    insert_standings_of_teams()
     return {
-        "statusCode": statuscode,
+        "statusCode": 200,
     }
