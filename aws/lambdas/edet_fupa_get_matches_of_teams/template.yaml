@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  SAM Template for edet_fupa_get_matches_of_teams
+
+Parameters:
+  stage:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+
+Globals:
+  Function:
+    Timeout: 900
+    Environment:
+      Variables:
+        STAGE: !Ref stage
+        DB: !Sub edet_${stage}
+        SOURCE_TABLE: sources.teams_source
+
+Resources:
+  EdetFupaGetMatchesOfTeams:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "edet-fupa-get-matches-of-teams-${stage}"
+      PackageType: Image
+      Role: arn:aws:iam::084534280195:role/edet-lambda-rds-fullaccess
+      MemorySize: 128
+      Tags:
+        project: edet
+      Description: !Sub "Fetches Matches for all teams in source - ${stage}"
+      Events:
+        ScheduledEvent:
+          Type: Schedule
+          Properties:
+            Name: !Sub "edet-fupa-get-matches-of-teams-${stage}-scheduledevent"
+            Description: scheduled event to fetch matches of teams
+            Schedule: cron(15 03 * * ? *)
+    Metadata:
+      DockerTag: python3.7-v1
+      DockerContext: ./edet_fupa_get_matches_of_teams
+      Dockerfile: Dockerfile
+
+Outputs:
+  EdetFupaGetMatchesOfTeams:
+    Description: "Function to get Matches of Teams from Fupa"
+    Value: !GetAtt EdetFupaGetMatchesOfTeams.Arn
