@@ -69,8 +69,7 @@ def insert_team(team):
 VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')
 ON CONFLICT (team_name, team_class, team_season)
 DO UPDATE SET
-team_showname = EXCLUDED.team_showname, team_link = EXCLUDED.team_link, team_image_link = EXCLUDED.team_image_link, 
-team_main_league_id = EXCLUDED.team_main_league_id RETURNING team_id;
+team_showname = EXCLUDED.team_showname, team_link = EXCLUDED.team_link, team_image_link = EXCLUDED.team_image_link RETURNING team_id;
 """.format(tablename, team['showname'], team['teamname'], team['teamclass'], team['season'], team['teamlink'], team['teamimage'])
     id = db.execute_sql(sql)
     return id[0][0]
@@ -112,7 +111,6 @@ def insert_matches_of_teams():
         print('{}-{}-{}'.format(team[0], team[1], team[2]))
         fupa_client = FupaClient(team[0], team[1], team[2])
         matches = fupa_client.get_matches()
-        print(matches[0])
         insert_leagues_and_teams_and_matches(matches)
 
 
