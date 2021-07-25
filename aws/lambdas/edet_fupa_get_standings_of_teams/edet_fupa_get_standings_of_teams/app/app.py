@@ -65,7 +65,8 @@ RETURNING league_id;""".format(tablename, standing['league_showname'], standing[
 
 def insert_team(team, league_id):
     tablename = 'teams.all_teams'
-    logger.info("Insert team in Table {}".format(tablename))
+    logger.info("Insert team {} in Table {} with league_id {}".format(
+        team['showname'], tablename, league_id))
 
     sql = """INSERT INTO {} (team_showname, team_name, team_class, team_season, team_link, team_image_link, team_main_league_id)
 VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', {})
