@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  SAM Template for edet_fupa_get_players_of_teams
+
+Parameters:
+  stage:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+
+Globals:
+  Function:
+    Timeout: 600
+    Environment:
+      Variables:
+        STAGE: !Ref stage
+        DB: !Sub edet_${stage}
+        SOURCE_TABLE: sources.teams_source
+
+Resources:
+  EdetFupaGetPlayersOfTeams:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "edet-fupa-get-players-of-teams-${stage}"
+      PackageType: Image
+      Role: arn:aws:iam::084534280195:role/edet-lambda-rds-fullaccess
+      MemorySize: 128
+      Tags:
+        project: edet
+      Description: !Sub "Fetches Players for all teams in teams.all_teams - ${stage}"
+      Events:
+        ScheduledEvent:
+          Type: Schedule
+          Properties:
+            Name: !Sub "edet-fupa-get-players-of-teams-${stage}-scheduledevent"
+            Description: scheduled event to fetch players of teams
+            Schedule: cron(0 04 * * ? *)
+    Metadata:
+      DockerTag: python3.7-v1
+      DockerContext: ./edet_fupa_get_players_of_teams
+      Dockerfile: Dockerfile
+
+Outputs:
+  EdetFupaGetPlayersOfTeams:
+    Description: "Function to get Players of Teams from Fupa"
+    Value: !GetAtt EdetFupaGetPlayersOfTeams.Arn
