@@ -1,1 +1,0 @@
-# data_fetcher_fupa_teams_players
