@@ -1,41 +1,20 @@
-import json
-import ast
 import logging
 import os
 
-from aws_secretsmanager_client import AwsSecretsManagerClient
-from aws_postgresdb_client import AwsPostgresDBClient
+from aws_dbconnector_client import AwsDBConnectorClient
 from fupa_client import FupaClient
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def connect_to_db():
-    secret = get_secret()
-    database = os.environ.get('DB')
-    logger.info("Connect to dbhost:{}".format(secret['host']))
-    db = AwsPostgresDBClient(host=secret['host'],
-                             port=secret['port'],
-                             database=database,
-                             user=secret['username'],
-                             password=secret['password'])
-    return db
-
-
-def get_secret():
-    stage = os.environ.get('STAGE')
-
-    secret_name = 'edet_pg_d_datafetcher_secret'
-    if stage == 'prod':
-        secret_name = 'edet_pg_p_datafetcher_secret'
-
-    aws_secret_client = AwsSecretsManagerClient(secret_name, 'eu-central-1')
-    secret = ast.literal_eval(aws_secret_client.get_secret())
-    return secret
-
-
-db = connect_to_db()
+database = os.environ.get('DB')
+secret_name = 'edet_pg_d_datafetcher_secret' if os.environ.get(
+    'STAGE') == 'dev' else 'edet_pg_p_datafetcher_secret'
+secret_region = 'eu-central-1'
+aws_dbconnector_client = AwsDBConnectorClient(
+    secret_name, secret_region, database, 'postgres')
+db = aws_dbconnector_client.get_db()
 
 
 def get_teams_from_source_table():
