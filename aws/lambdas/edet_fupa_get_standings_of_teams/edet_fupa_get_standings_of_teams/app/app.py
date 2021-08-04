@@ -53,13 +53,15 @@ def get_league_id(standing):
     logger.info("Get League Id from Table {}".format(tablename))
 
     sql = """INSERT INTO {} (league_showname, league_name, league_season, league_link)
-VALUES (\'{}\', \'{}\',\'{}\' ,\'{}\')
+VALUES (%s, %s, %s, %s)
 ON CONFLICT (league_name, league_season)
 DO UPDATE SET
 league_showname = EXCLUDED.league_showname, league_link = EXCLUDED.league_link
-RETURNING league_id;""".format(tablename, standing['league_showname'], standing['league_name'], standing['league_season'], standing['leaguelink'])
+RETURNING league_id;""".format(tablename)
+    values = (standing['league_showname'], standing['league_name'],
+              standing['league_season'], standing['leaguelink'])
 
-    id = db.execute_sql(sql)
+    id = db.execute_sql(sql, values=values, autocommit=True)
     return id[0][0]
 
 
@@ -69,13 +71,15 @@ def insert_team(team, league_id):
         team['showname'], tablename, league_id))
 
     sql = """INSERT INTO {} (team_showname, team_name, team_class, team_season, team_link, team_image_link, team_main_league_id)
-VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', {})
+VALUES (%s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (team_name, team_class, team_season)
 DO UPDATE SET
 team_showname = EXCLUDED.team_showname, team_link = EXCLUDED.team_link, team_image_link = EXCLUDED.team_image_link, 
 team_main_league_id = EXCLUDED.team_main_league_id RETURNING team_id;
-""".format(tablename, team['showname'], team['teamname'], team['teamclass'], team['season'], team['teamlink'], team['teamimage'], league_id)
-    id = db.execute_sql(sql)
+""".format(tablename)
+    values = (team['showname'], team['teamname'], team['teamclass'],
+              team['season'], team['teamlink'], team['teamimage'], league_id)
+    id = db.execute_sql(sql, values=values, autocommit=True)
     return id[0][0]
 
 
@@ -85,16 +89,16 @@ def insert_standing(team_standing, team_id, league_id):
 
     sql = """INSERT INTO {} 
 (standings_position, standings_team_id, standings_games, standings_wins, standings_draws, standings_loses, standings_goals, standings_countered_goals, standings_points, standings_league_id)
-VALUES ({}, {}, {},{},{}, {}, {}, {}, {}, {})
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (standings_team_id, standings_league_id)
 DO UPDATE SET
 standings_position = EXCLUDED.standings_position, standings_games = EXCLUDED.standings_games, standings_wins = EXCLUDED.standings_wins, standings_draws = EXCLUDED.standings_draws, 
 standings_loses = EXCLUDED.standings_loses, standings_goals = EXCLUDED.standings_goals, standings_countered_goals = EXCLUDED.standings_countered_goals, 
 standings_points = EXCLUDED.standings_points;
-""".format(tablename, team_standing['position'], team_id, team_standing['games'], team_standing['wins'], team_standing['draws'],
-           team_standing['loses'], team_standing['goals'], team_standing['countered_goals'], team_standing['points'], league_id)
-
-    db.execute_sql(sql)
+""".format(tablename)
+    values = (team_standing['position'], team_id, team_standing['games'], team_standing['wins'], team_standing['draws'],
+              team_standing['loses'], team_standing['goals'], team_standing['countered_goals'], team_standing['points'], league_id)
+    db.execute_sql(sql, values=values, autocommit=True)
 
 
 def insert_teams_and_standings(standing, league_id):
