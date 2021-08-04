@@ -52,13 +52,15 @@ def insert_league(match):
     tablename = 'leagues.all_leagues'
 
     sql = """INSERT INTO {} (league_showname, league_name, league_season, league_link)
-VALUES (\'{}\', \'{}\',\'{}\' ,\'{}\')
+VALUES (%s, %s, %s, %s)
 ON CONFLICT (league_name, league_season)
 DO UPDATE SET
 league_showname = EXCLUDED.league_showname, league_link = EXCLUDED.league_link
-RETURNING league_id;""".format(tablename, match['league_showname'], match['league_name'], match['home_season'], match['league_link'])
+RETURNING league_id;""".format(tablename)
+    values = (match['league_showname'], match['league_name'],
+              match['home_season'], match['league_link'])
 
-    id = db.execute_sql(sql)
+    id = db.execute_sql(sql, values=values, autocommit=True)
     return id[0][0]
 
 
@@ -66,12 +68,14 @@ def insert_team(team):
     tablename = 'teams.all_teams'
 
     sql = """INSERT INTO {} (team_showname, team_name, team_class, team_season, team_link, team_image_link)
-VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')
+VALUES (%s, %s, %s, %s, %s, %s)
 ON CONFLICT (team_name, team_class, team_season)
 DO UPDATE SET
 team_showname = EXCLUDED.team_showname, team_link = EXCLUDED.team_link, team_image_link = EXCLUDED.team_image_link RETURNING team_id;
-""".format(tablename, team['showname'], team['teamname'], team['teamclass'], team['season'], team['teamlink'], team['teamimage'])
-    id = db.execute_sql(sql)
+""".format(tablename)
+    values = (team['showname'], team['teamname'], team['teamclass'],
+              team['season'], team['teamlink'], team['teamimage'])
+    id = db.execute_sql(sql, values=values, autocommit=True)
     return id[0][0]
 
 
@@ -81,14 +85,15 @@ def insert_match(match, home_team_id, away_team_id, league_id):
     sql = """INSERT INTO {}
 (match_date_time, match_link, match_home_team_id, match_away_team_id, match_home_goals, match_away_goals, match_cancelled, match_league_id)
 VALUES
-(\'{}\', \'{}\', {}, {}, {}, {}, {}, {})
+(%s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (match_date_time, match_home_team_id, match_away_team_id, match_league_id)
 DO UPDATE SET
 match_link = EXCLUDED.match_link, match_home_goals = EXCLUDED.match_home_goals, match_away_goals = EXCLUDED.match_away_goals, 
 match_cancelled = EXCLUDED.match_cancelled;
-""".format(tablename, match['date_time'], match['match_link'], home_team_id, away_team_id,
-           match['home_goals'] if isinstance(match['home_goals'], int) else 'NULL', match['away_goals'] if isinstance(match['home_goals'], int) else 'NULL', 'TRUE' if match['cancelled'] else 'FALSE', league_id)
-    db.execute_sql(sql)
+""".format(tablename)
+    values = (match['date_time'], match['match_link'], home_team_id, away_team_id,
+              match['home_goals'], match['away_goals'], match['cancelled'], league_id)
+    db.execute_sql(sql, values=values, autocommit=True)
 
 
 def insert_leagues_and_teams_and_matches(matches):
