@@ -1,0 +1,4 @@
+http://ec2-52-58-219-192.eu-central-1.compute.amazonaws.com:8080/packages/aws_postgresdb_client/dist/aws_postgresdb_client-0.0.3.tar.gz
+http://ec2-52-58-219-192.eu-central-1.compute.amazonaws.com:8080/packages/mck_homepage_client/dist/mck_homepage_client-0.0.1.tar.gz
+http://ec2-52-58-219-192.eu-central-1.compute.amazonaws.com:8080/packages/aws_secretsmanager_client/dist/aws_secretsmanager_client-0.0.1.tar.gz
+http://ec2-52-58-219-192.eu-central-1.compute.amazonaws.com:8080/packages/aws_dbconnector_client/dist/aws_dbconnector_client-0.0.1.tar.gz

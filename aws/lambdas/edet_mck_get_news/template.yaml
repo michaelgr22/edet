@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  SAM Template for edet_mck_get_news
+
+Parameters:
+  stage:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+
+Globals:
+  Function:
+    Timeout: 60
+    Environment:
+      Variables:
+        STAGE: !Ref stage
+        DB: !Sub edet_${stage}
+
+Resources:
+  EdetMckGetNews:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "edet-mck-get-news-${stage}"
+      PackageType: Image
+      Role: arn:aws:iam::084534280195:role/edet-lambda-rds-fullaccess
+      MemorySize: 128
+      Tags:
+        project: edet
+      Description: !Sub "Fetches News for mck - ${stage}"
+      Events:
+        ScheduledEvent:
+          Type: Schedule
+          Properties:
+            Name: !Sub "edet-mck-get-news-${stage}-scheduledevent"
+            Description: scheduled event to fetch news of mck
+            Schedule: cron(0 05 * * ? *)
+    Metadata:
+      DockerTag: python3.7-v1
+      DockerContext: ./edet_mck_get_news
+      Dockerfile: Dockerfile
+
+Outputs:
+  EdetMckGetNews:
+    Description: "Function to get News of Mck"
+    Value: !GetAtt EdetMckGetNews.Arn
