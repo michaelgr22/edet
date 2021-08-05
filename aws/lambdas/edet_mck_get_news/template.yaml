@@ -9,6 +9,10 @@ Parameters:
     AllowedValues:
       - dev
       - prod
+  secret:
+    Type: String
+  region:
+    Type: String
 
 Globals:
   Function:
@@ -17,6 +21,8 @@ Globals:
       Variables:
         STAGE: !Ref stage
         DB: !Sub edet_${stage}
+        SECRET: !Ref secret
+        REGION: !Ref region
 
 Resources:
   EdetMckGetNews:
