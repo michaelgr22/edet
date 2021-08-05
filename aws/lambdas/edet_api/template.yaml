@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  SAM Template for edet_api
+
+Parameters:
+  stage:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+  secret:
+    Type: String
+  region:
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 5
+    Environment:
+      Variables:
+        STAGE: !Ref stage
+        DB: !Sub edet_${stage}
+        SECRET: !Ref secret
+        REGION: !Ref region
+
+Resources:
+  EdetApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "edet-api-${stage}"
+      PackageType: Image
+      Role: arn:aws:iam::084534280195:role/edet-lambda-rds-fullaccess
+      MemorySize: 128
+      Tags:
+        project: edet
+      Description: !Sub "Edet Api - ${stage}"
+    Metadata:
+      DockerTag: python3.7-v1
+      DockerContext: ./edet_api
+      Dockerfile: Dockerfile
+
+Outputs:
+  EdetApi:
+    Description: "Api for Edet"
+    Value: !GetAtt EdetApi.Arn
