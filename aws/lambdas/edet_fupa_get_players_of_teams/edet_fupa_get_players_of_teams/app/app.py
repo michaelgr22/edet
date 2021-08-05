@@ -10,9 +10,8 @@ logger.setLevel(logging.INFO)
 
 
 database = os.environ.get('DB')
-secret_name = 'edet_pg_d_datafetcher_secret' if os.environ.get(
-    'STAGE') == 'dev' else 'edet_pg_p_datafetcher_secret'
-secret_region = 'eu-central-1'
+secret_name = os.environ.get('SECRET')
+secret_region = os.environ.get('REGION')
 aws_dbconnector_client = AwsDBConnectorClient(
     secret_name, secret_region, database, 'postgres')
 db = aws_dbconnector_client.get_db()
