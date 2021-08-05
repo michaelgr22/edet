@@ -9,6 +9,10 @@ Parameters:
     AllowedValues:
       - dev
       - prod
+  secret:
+    Type: String
+  region:
+    Type: String
 
 Globals:
   Function:
@@ -18,6 +22,8 @@ Globals:
         STAGE: !Ref stage
         DB: !Sub edet_${stage}
         SOURCE_TABLE: sources.teams_source
+        SECRET: !Ref secret
+        REGION: !Ref region
 
 Resources:
   EdetFupaGetMatchesOfLeagues:
