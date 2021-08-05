@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../constants.dart';
+import '../widgets/news/news.dart';
 
 class HomePage extends StatelessWidget {
   final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();
@@ -59,16 +61,10 @@ class TabBarContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      children: tabs.map((Tab tab) {
-        final String label = tab.text.toString();
-        return Center(
-          child: Text(
-            'This is the $label tab',
-            style: const TextStyle(fontSize: 36),
-          ),
-        );
-      }).toList(),
-    );
+    return TabBarView(children: [
+      News(),
+      Text("zwei"),
+      Text("drei"),
+    ]);
   }
 }
