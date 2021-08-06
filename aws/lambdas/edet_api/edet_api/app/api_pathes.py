@@ -1,14 +1,11 @@
 def mcknews(db, event):
-    number_of_news = event['queryStringParameters']['number']
     tablename = 'mck.news'
 
     sql = """SELECT news_id, news_headline, news_date, news_category, news_imagelink, news_content FROM {}
     WHERE news_category = 'Fussball' OR news_category = 'Allgemein'
-    ORDER BY news_date desc
-    LIMIT %s;""".format(tablename)
+    ORDER BY news_date desc;""".format(tablename)
 
-    values = (number_of_news)
-    result = db.execute_sql(sql, values=values)
+    result = db.execute_sql(sql)
 
     return list(map(lambda row: {'news_id': row[0], 'news_headline': row[1], 'news_date': row[2], 'news_category': row[3], 'news_imagelink': row[4],
                                  'news_content': row[5]}, result))
