@@ -1,0 +1,45 @@
+import 'package:edet_poc/widgets/news/news_list_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:edet_poc/cubit/news_cubit.dart';
+import 'package:edet_poc/data/datasources/mck_remote_datasource.dart';
+import 'package:edet_poc/data/repositories/news_repository.dart';
+import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/core/errors/exceptions.dart';
+
+class NewsList extends StatelessWidget {
+  final mckRemoteDataSource = MckRemoteDataSourceImpl();
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          NewsCubit(NewsRepository(remoteDataSource: mckRemoteDataSource))
+            ..getNews(),
+      child: BlocBuilder<NewsCubit, NewsState>(
+        builder: (context, state) {
+          return stateManager(state);
+        },
+      ),
+    );
+  }
+
+  Widget stateManager(NewsState state) {
+    if (state is NewsStateInitial || state is NewsStateLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          backgroundColor: blackBackgroundColor,
+        ),
+      );
+    } else if (state is NewsStateLoaded) {
+      return NewsListView(news: state.news);
+    } else if (state is NewsStateError) {
+      return Text(
+        state.message,
+        style: const TextStyle(color: Colors.black),
+      );
+    } else {
+      throw UndefinedStateException();
+    }
+  }
+}

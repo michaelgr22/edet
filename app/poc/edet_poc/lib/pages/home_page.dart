@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import '../widgets/news/news.dart';
+import '../widgets/news/news_list.dart';
 
 class HomePage extends StatelessWidget {
   final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();
@@ -62,7 +62,7 @@ class TabBarContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBarView(children: [
-      News(),
+      NewsList(),
       Text("zwei"),
       Text("drei"),
     ]);
