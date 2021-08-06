@@ -1,4 +1,4 @@
 requests
-http://ec2-18-194-254-169.eu-central-1.compute.amazonaws.com:8080/packages/aws_postgresdb_client/dist/aws_postgresdb_client-0.0.3.tar.gz
-http://ec2-18-194-254-169.eu-central-1.compute.amazonaws.com:8080/packages/aws_secretsmanager_client/dist/aws_secretsmanager_client-0.0.1.tar.gz
-http://ec2-18-194-254-169.eu-central-1.compute.amazonaws.com:8080/packages/aws_dbconnector_client/dist/aws_dbconnector_client-0.0.1.tar.gz
+http://ec2-18-195-96-23.eu-central-1.compute.amazonaws.com:8080/packages/aws_postgresdb_client/dist/aws_postgresdb_client-0.0.3.tar.gz
+http://ec2-18-195-96-23.eu-central-1.compute.amazonaws.com:8080/packages/aws_secretsmanager_client/dist/aws_secretsmanager_client-0.0.1.tar.gz
+http://ec2-18-195-96-23.eu-central-1.compute.amazonaws.com:8080/packages/aws_dbconnector_client/dist/aws_dbconnector_client-0.0.1.tar.gz
