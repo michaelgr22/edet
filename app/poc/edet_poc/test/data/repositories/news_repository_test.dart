@@ -7,12 +7,14 @@ import 'package:edet_poc/data/repositories/news_repository.dart';
 
 final newsReturnList = [
   NewsModel(
+      id: 1,
       headline: 'headline',
       date: DateTime.parse('2021-07-14 00:00:00'),
       category: 'category',
       imagelink: 'imagelink',
       content: 'content'),
   NewsModel(
+      id: 2,
       headline: 'headline2',
       date: DateTime.parse('2021-07-15 00:00:00'),
       category: 'category2',

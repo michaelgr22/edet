@@ -1,3 +1,5 @@
+import 'package:edet_poc/core/errors/exceptions.dart';
+import 'package:edet_poc/pages/news_details_page.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home_page.dart';
@@ -17,6 +19,28 @@ class App extends StatelessWidget {
             Theme.of(context).textTheme.apply(bodyColor: yellowTextColor),
       ),
       home: HomePage(),
+      onGenerateRoute: routes,
     );
+  }
+
+  Route routes(RouteSettings settings) {
+    final String id = settings.name!.split('/').last;
+    if (settings.name == '/') {
+      return MaterialPageRoute(
+        builder: (context) {
+          return HomePage();
+        },
+      );
+    } else if (settings.name!.startsWith('/news')) {
+      return MaterialPageRoute(
+        builder: (context) {
+          return NewsDetailsPage(
+            newsId: int.parse(id),
+          );
+        },
+      );
+    } else {
+      throw UndefiniedRouteException();
+    }
   }
 }

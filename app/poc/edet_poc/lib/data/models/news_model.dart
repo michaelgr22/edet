@@ -1,4 +1,5 @@
 class NewsModel {
+  final int id;
   final String headline;
   final DateTime date;
   final String category;
@@ -6,6 +7,7 @@ class NewsModel {
   final String content;
 
   NewsModel({
+    required this.id,
     required this.headline,
     required this.date,
     required this.category,
@@ -14,7 +16,8 @@ class NewsModel {
   });
 
   NewsModel.fromJson(Map<String, dynamic> json)
-      : headline = json['news_headline'],
+      : id = json['news_id'],
+        headline = json['news_headline'],
         date = DateTime.parse(json['news_date']),
         category = json['news_category'],
         imagelink = json['news_imagelink'],
