@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-import '../widgets/news/news_list.dart';
+import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/presentation/widgets/news/news_list.dart';
 
 class HomePage extends StatelessWidget {
   final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();

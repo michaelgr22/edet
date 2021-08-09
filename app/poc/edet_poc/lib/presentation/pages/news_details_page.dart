@@ -1,7 +1,7 @@
-import 'package:edet_poc/data/models/news_model.dart';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/data/models/news_model.dart';
 
 class NewsDetailsPage extends StatelessWidget {
   final int newsId;
