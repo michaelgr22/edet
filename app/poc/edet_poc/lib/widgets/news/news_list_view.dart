@@ -49,26 +49,46 @@ class NewsListViewCard extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.network(
-                    newsItem.imagelink,
-                    width: 100,
-                    height: 80,
-                  ),
+                child: NewsListViewCardImage(
+                  imagelink: newsItem.imagelink,
                 ),
               ),
-              Expanded(
-                child: Text(
-                  newsItem.headline,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              NewsListViewCardHeadline(headline: newsItem.headline)
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class NewsListViewCardImage extends StatelessWidget {
+  final String imagelink;
+  NewsListViewCardImage({required this.imagelink});
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20.0),
+      child: Image.network(
+        imagelink,
+        width: 100,
+        height: 80,
+      ),
+    );
+  }
+}
+
+class NewsListViewCardHeadline extends StatelessWidget {
+  final String headline;
+  NewsListViewCardHeadline({required this.headline});
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Text(
+        headline,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
