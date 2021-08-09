@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/news_model.dart';
-import 'package:flutter/material.dart';
 
 class NewsListView extends StatelessWidget {
   final List<NewsModel> news;
@@ -19,7 +20,6 @@ class NewsListView extends StatelessWidget {
         },
       ),
     );
-    ;
   }
 }
 

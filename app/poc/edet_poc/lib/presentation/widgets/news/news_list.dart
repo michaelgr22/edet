@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edet_poc/cubit/news_cubit.dart';
 import 'package:edet_poc/data/datasources/mck_remote_datasource.dart';
 import 'package:edet_poc/data/repositories/news_repository.dart';
-import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/core/errors/exceptions.dart';
 import 'package:edet_poc/presentation/widgets/news/news_list_view.dart';
+import 'package:edet_poc/presentation/widgets/news/news_list_view_loading_indicator.dart';
 
 class NewsList extends StatelessWidget {
   final mckRemoteDataSource = MckRemoteDataSourceImpl();
@@ -26,11 +26,7 @@ class NewsList extends StatelessWidget {
 
   Widget stateManager(NewsState state) {
     if (state is NewsStateInitial || state is NewsStateLoading) {
-      return const Center(
-        child: CircularProgressIndicator(
-          backgroundColor: blackBackgroundColor,
-        ),
-      );
+      return NewsListViewLoadingIndicator();
     } else if (state is NewsStateLoaded) {
       return NewsListView(news: state.news);
     } else if (state is NewsStateError) {
