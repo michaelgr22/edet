@@ -1,12 +1,19 @@
 def mcknews(db, event):
     tablename = 'mck.news'
+    values = ()
 
-    sql = """SELECT news_id, news_headline, news_date, news_category, news_imagelink, news_content FROM {}
-    WHERE news_category = 'Fussball' OR news_category = 'Allgemein'
-    ORDER BY news_date desc;""".format(tablename)
+    if event['queryStringParameters']:
+        if 'id' in event['queryStringParameters']:
+            sql = """SELECT news_id, news_headline, news_date, news_category, news_imagelink, news_content FROM {}
+            WHERE (news_category = 'Fussball' OR news_category = 'Allgemein') and news_id = %s;""".format(tablename)
+            id = event['queryStringParameters']['id']
+            values = (id)
+    else:
+        sql = """SELECT news_id, news_headline, news_date, news_category, news_imagelink, news_content FROM {}
+        WHERE news_category = 'Fussball' OR news_category = 'Allgemein'
+        ORDER BY news_date desc;""".format(tablename)
 
-    result = db.execute_sql(sql)
-
+    result = db.execute_sql(sql, values=values)
     return list(map(lambda row: {'news_id': row[0], 'news_headline': row[1], 'news_date': row[2], 'news_category': row[3], 'news_imagelink': row[4],
                                  'news_content': row[5]}, result))
 
