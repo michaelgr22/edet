@@ -7,7 +7,7 @@ def mcknews(db, event):
             WHERE (news_category = 'Fussball' OR news_category = 'Allgemein') and news_id = %s;""".format(tablename)
 
             id = event['queryStringParameters']['id']
-            values = (id)
+            values = (id,)
             result = db.execute_sql(sql, values=values)
             row = result[0]
 
