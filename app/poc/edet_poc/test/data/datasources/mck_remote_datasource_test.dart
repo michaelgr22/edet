@@ -12,4 +12,14 @@ void main() {
     //assert
     expect(newsList, isA<List<NewsModel>>());
   });
+
+  test('should return NewsModel with id when getNewsItemfromId is called',
+      () async {
+    //arrange
+    final remoteDataSource = MckRemoteDataSourceImpl();
+    //act
+    final newsItem = await remoteDataSource.getNewsItemfromId(1);
+    //assert
+    expect(newsItem, isA<NewsModel>());
+  });
 }

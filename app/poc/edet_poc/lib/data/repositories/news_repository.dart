@@ -9,4 +9,8 @@ class NewsRepository {
   Future<List<NewsModel>> getNews() {
     return remoteDataSource.getNews();
   }
+
+  Future<NewsModel> getNewsItemfromId(int id) {
+    return remoteDataSource.getNewsItemfromId(id);
+  }
 }

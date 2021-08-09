@@ -6,20 +6,32 @@ import 'package:edet_poc/core/errors/exceptions.dart';
 
 abstract class MckRemoteDataSource {
   Future<List<NewsModel>> getNews();
+  Future<NewsModel> getNewsItemfromId(int id);
 }
 
 class MckRemoteDataSourceImpl implements MckRemoteDataSource {
   final String _authority = 'jb7o2lh1ej.execute-api.eu-central-1.amazonaws.com';
   final String _unencodedPath = '/dev/mcknews';
-  Map<String, String> parameters = {'number': '5'};
+  Map<String, String> _parameters = {};
 
   @override
   Future<List<NewsModel>> getNews() async {
-    final Uri url = Uri.https(_authority, _unencodedPath, parameters);
+    final http.Response response = await _sendGetRequest();
+    return _convertResponseToModels(response);
+  }
 
+  @override
+  Future<NewsModel> getNewsItemfromId(int id) async {
+    _parameters = {'id': id.toString()};
+    final http.Response response = await _sendGetRequest();
+    return NewsModel.fromJson(json.decode(response.body));
+  }
+
+  Future<http.Response> _sendGetRequest() async {
+    final Uri url = Uri.https(_authority, _unencodedPath, _parameters);
     try {
       final response = await http.get(url);
-      return _convertResponseToModels(response);
+      return response;
     } on Exception {
       throw NetworkException();
     }

@@ -27,6 +27,11 @@ class MockMckRemoteDataSource extends Mock implements MckRemoteDataSource {
   Future<List<NewsModel>> getNews() async {
     return Future.delayed(const Duration(seconds: 1), () => newsReturnList);
   }
+
+  @override
+  Future<NewsModel> getNewsItemfromId(int id) async {
+    return Future.delayed(const Duration(seconds: 1), () => newsReturnList[0]);
+  }
 }
 
 void main() {
@@ -41,5 +46,18 @@ void main() {
     //act
     //assert
     expect(await newsRepository.getNews(), isA<List<NewsModel>>());
+  });
+
+  test(
+      'should return NewsModel with id when getNewsItemfromId is called and RemoteDataSoucre is working',
+      () async {
+    //arrange
+    final MockMckRemoteDataSource mckRemoteDataSource =
+        MockMckRemoteDataSource();
+    final newsRepository =
+        NewsRepository(remoteDataSource: mckRemoteDataSource);
+    //act
+    //assert
+    expect(await newsRepository.getNewsItemfromId(1), isA<NewsModel>());
   });
 }
