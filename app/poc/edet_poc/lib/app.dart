@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:edet_poc/presentation/pages/home_page.dart';
 import 'package:edet_poc/presentation/pages/news_details_page.dart';
-import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/core/errors/exceptions.dart';
 
 class App extends StatelessWidget {
@@ -15,8 +14,6 @@ class App extends StatelessWidget {
       title: _title,
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme:
-            Theme.of(context).textTheme.apply(bodyColor: yellowTextColor),
       ),
       home: HomePage(),
       onGenerateRoute: routes,
