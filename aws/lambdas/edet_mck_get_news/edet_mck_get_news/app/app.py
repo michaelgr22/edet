@@ -7,7 +7,6 @@ from mck_homepage_client import MckHomepageClient
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-
 database = os.environ.get('DB')
 secret_name = os.environ.get('SECRET')
 secret_region = os.environ.get('REGION')
