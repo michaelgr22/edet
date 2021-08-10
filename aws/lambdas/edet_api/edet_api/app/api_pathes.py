@@ -107,8 +107,9 @@ WHERE teams.team_name = %s AND teams.team_class = %s AND teams.team_season = %s;
 
     values = (teamname, teamclass, teamseason)
     result = db.execute_sql(sql, values=values)
+    row = result[0]
 
-    return list(map(lambda row: {'league_id': row[0], 'league_showname': row[1], 'league_name': row[2], 'league_season': row[3]}, result))
+    return {'league_id': row[0], 'league_showname': row[1], 'league_name': row[2], 'league_season': row[3]}
 
 
 def leaguematches(db, event):
