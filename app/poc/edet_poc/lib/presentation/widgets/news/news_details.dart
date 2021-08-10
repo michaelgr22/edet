@@ -1,6 +1,6 @@
 import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/news_model.dart';
-import 'package:edet_poc/presentation/pages/news_details_image_screen.dart';
+import 'package:edet_poc/presentation/pages/news_details_image_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -81,7 +81,7 @@ class _NewsDetailsImageState extends State<NewsDetailsImage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => NewsDetailsImageScreen(
+            builder: (_) => NewsDetailsImagePage(
               imagelink: widget.imagelink,
             ),
           ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class NewsDetailsImageScreen extends StatefulWidget {
+class NewsDetailsImagePage extends StatefulWidget {
   final String imagelink;
-  NewsDetailsImageScreen({Key? key, required this.imagelink}) : super(key: key);
+  NewsDetailsImagePage({Key? key, required this.imagelink}) : super(key: key);
 
   @override
-  _NewsDetailsImageScreenState createState() => _NewsDetailsImageScreenState();
+  _NewsDetailsImagePageState createState() => _NewsDetailsImagePageState();
 }
 
-class _NewsDetailsImageScreenState extends State<NewsDetailsImageScreen> {
+class _NewsDetailsImagePageState extends State<NewsDetailsImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
