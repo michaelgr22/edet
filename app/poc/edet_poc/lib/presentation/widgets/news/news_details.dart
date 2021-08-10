@@ -1,5 +1,6 @@
 import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/news_model.dart';
+import 'package:edet_poc/presentation/pages/news_details_image_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -64,6 +65,41 @@ class NewsDetailsDate extends StatelessWidget {
   }
 }
 
+class NewsDetailsImage extends StatefulWidget {
+  final String imagelink;
+  NewsDetailsImage({Key? key, required this.imagelink}) : super(key: key);
+
+  @override
+  _NewsDetailsImageState createState() => _NewsDetailsImageState();
+}
+
+class _NewsDetailsImageState extends State<NewsDetailsImage> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => NewsDetailsImageScreen(
+              imagelink: widget.imagelink,
+            ),
+          ),
+        );
+      },
+      child: Hero(
+        tag: widget.imagelink,
+        child: SizedBox(
+          width: double.infinity,
+          height: 200.0,
+          child: Image.network(widget.imagelink),
+        ),
+      ),
+    );
+  }
+}
+
+/*
 class NewsDetailsImage extends StatelessWidget {
   final String imagelink;
   NewsDetailsImage({required this.imagelink});
@@ -75,7 +111,7 @@ class NewsDetailsImage extends StatelessWidget {
       child: Image.network(imagelink),
     );
   }
-}
+}*/
 
 class NewsDetailsContent extends StatelessWidget {
   final String content;
