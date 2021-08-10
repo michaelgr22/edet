@@ -118,18 +118,20 @@ def leaguematches(db, event):
 
     matches_tablename = 'matches.all_matches'
     teams_tablename = 'teams.all_teams'
+    leagues_tablename = 'leagues.all_leagues'
 
     sql = """SELECT match_id, match_date_time, home.team_showname as match_home_team_showname, away.team_showname as match_away_team_showname, 
-match_link, match_home_goals, match_away_goals, match_cancelled
+match_link, match_home_goals, match_away_goals, match_cancelled, leagues.league_showname as match_league_showname
 FROM {0}
 JOIN {1} teams ON {0}.match_league_id=teams.team_main_league_id
 JOIN {1} home ON {0}.match_home_team_id=home.team_id
 JOIN {1} away ON {0}.match_away_team_id=away.team_id
+JOIN {2} leagues ON {0}.match_league_id=leagues.league_id
 WHERE teams.team_name = %s AND teams.team_class = %s AND teams.team_season = %s
-ORDER BY match_date_time asc;""".format(matches_tablename, teams_tablename)
+ORDER BY match_date_time asc;""".format(matches_tablename, teams_tablename, leagues_tablename)
 
     values = (teamname, teamclass, teamseason)
     result = db.execute_sql(sql, values=values)
 
     return list(map(lambda row: {'match_id': row[0], 'match_date_time': row[1], 'match_home_team_showname': row[2], 'match_away_team_showname': row[3], 'match_link': row[4],
-                                 'match_home_goals': row[5], 'match_away_goals': row[6], 'match_cancelled': row[7]}, result))
+                                 'match_home_goals': row[5], 'match_away_goals': row[6], 'match_cancelled': row[7], 'match_league_showname': row[8]}, result))
