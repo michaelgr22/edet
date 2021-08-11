@@ -49,9 +49,11 @@ class _LeagueInformationsState extends State<LeagueInformations> {
               children: [
                 const LeagueInformationsHeadline(),
                 StandingsTable(
-                    standings: widget.standings,
-                    numberOfRows: 3,
-                    dividerHeight: 5.0),
+                  standings: widget.standings,
+                  numberOfRows: 3,
+                  dividerHeight: 5.0,
+                  rowHeight: 70.0,
+                ),
                 LeagueInformationsTSVPosition(
                   positionTSV: getRowTSV().position,
                 )
