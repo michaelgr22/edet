@@ -99,20 +99,6 @@ class _NewsDetailsImageState extends State<NewsDetailsImage> {
   }
 }
 
-/*
-class NewsDetailsImage extends StatelessWidget {
-  final String imagelink;
-  NewsDetailsImage({required this.imagelink});
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 200.0,
-      child: Image.network(imagelink),
-    );
-  }
-}*/
-
 class NewsDetailsContent extends StatelessWidget {
   final String content;
 
