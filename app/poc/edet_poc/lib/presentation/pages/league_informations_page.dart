@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
+import 'package:edet_poc/presentation/widgets/teams/matches_column.dart';
 import 'package:edet_poc/presentation/widgets/teams/standings_table.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,8 @@ class LeagueInformationsPage extends StatelessWidget {
               league: league.leagueShowname,
               season: league.leagueSeason,
             ),
-            StandingsContainer(league: league, standings: standings),
+            StandingsContainer(standings: standings),
+            MatchesContainer(leagueMatches: leagueMatches)
           ],
         ),
       ),
@@ -46,13 +48,32 @@ class LeagueInformationsPage extends StatelessWidget {
 }
 
 class StandingsContainer extends StatelessWidget {
-  final LeagueModel league;
   final List<StandingsRowModel> standings;
 
   const StandingsContainer({
     Key? key,
-    required this.league,
     required this.standings,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ContainerBoilerplate(
+      child: StandingsTable(
+        standings: standings,
+        numberOfRows: standings.length,
+        dividerHeight: 3.0,
+        rowHeight: 30.0,
+      ),
+    );
+  }
+}
+
+class ContainerBoilerplate extends StatelessWidget {
+  final Widget child;
+
+  const ContainerBoilerplate({
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -64,12 +85,7 @@ class StandingsContainer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(
               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-          child: StandingsTable(
-            standings: standings,
-            numberOfRows: standings.length,
-            dividerHeight: 3.0,
-            rowHeight: 30.0,
-          ),
+          child: child,
         ),
       ),
     );
@@ -115,6 +131,24 @@ class LeagueHeadline extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MatchesContainer extends StatelessWidget {
+  final List<MatchModel> leagueMatches;
+  const MatchesContainer({Key? key, required this.leagueMatches})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ContainerBoilerplate(
+      child: MatchesColumn(
+        matches: leagueMatches,
+        numberOfRows: leagueMatches.length,
+        dividerHeight: 3.0,
+        rowHeight: 30.0,
       ),
     );
   }

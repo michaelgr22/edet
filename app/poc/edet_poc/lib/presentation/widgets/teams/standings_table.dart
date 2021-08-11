@@ -1,4 +1,5 @@
 import 'package:edet_poc/data/models/standings_row_model.dart';
+import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
 
 class StandingsTable extends StatelessWidget {
@@ -92,22 +93,6 @@ class LeagueInformationsStandingsRow extends StatelessWidget {
     return SizedBox(
       width: size,
       child: Text(text),
-    );
-  }
-}
-
-class RowDivider extends StatelessWidget {
-  final double height;
-  const RowDivider({
-    Key? key,
-    required this.height,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Divider(
-      height: height,
-      color: Colors.black,
     );
   }
 }
