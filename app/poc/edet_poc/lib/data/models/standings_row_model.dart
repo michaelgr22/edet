@@ -1,6 +1,8 @@
 class StandingsRowModel {
   final int id;
   final int position;
+  final int teamId;
+  final String teamImagelink;
   final String teamShowname;
   final int games;
   final int wins;
@@ -13,6 +15,8 @@ class StandingsRowModel {
   StandingsRowModel({
     required this.id,
     required this.position,
+    required this.teamId,
+    required this.teamImagelink,
     required this.teamShowname,
     required this.games,
     required this.wins,
@@ -26,6 +30,8 @@ class StandingsRowModel {
   StandingsRowModel.fromJson(Map<String, dynamic> json)
       : id = json['standings_id'],
         position = json['standings_position'],
+        teamId = json['standings_team_id'],
+        teamImagelink = json['standings_team_image_link'],
         teamShowname = json['standings_team_showname'],
         games = json['standings_games'],
         wins = json['standings_wins'],

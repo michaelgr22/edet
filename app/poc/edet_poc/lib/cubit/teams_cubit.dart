@@ -14,7 +14,7 @@ class TeamsCubit extends Cubit<TeamsState> {
 
   TeamsCubit(this._fupaRepository) : super(const TeamsStateInitial());
 
-  Future<void> getTeamMatches() async {
+  Future<void> getTeamInformations() async {
     try {
       emit(const TeamsStateLoading());
       final LeagueModel league = await _fupaRepository.getLeague();

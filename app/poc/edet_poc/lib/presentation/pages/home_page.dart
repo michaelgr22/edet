@@ -1,3 +1,4 @@
+import 'package:edet_poc/presentation/widgets/teams/teams_tab.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edet_poc/constants.dart';
@@ -35,7 +36,8 @@ class TabBarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(children: [
       NewsList(),
-      Text("zwei"),
+      TeamsTab(
+          teamname: 'tsv-meckenhausen', teamclass: 'm1', teamseason: '2021-22'),
       Text("drei"),
     ]);
   }
