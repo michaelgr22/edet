@@ -1,0 +1,40 @@
+import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/data/models/league_model.dart';
+import 'package:edet_poc/data/models/player_model.dart';
+import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
+import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_headline.dart';
+import 'package:flutter/material.dart';
+
+class StatisticsInformationPage extends StatelessWidget {
+  final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();
+  final LeagueModel league;
+  final List<PlayerModel> players;
+
+  StatisticsInformationPage({
+    Key? key,
+    required this.players,
+    required this.league,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(submenuAppBarSize),
+        child: GlobalAppBar(
+          tabs: _tabs,
+          showTabBar: false,
+        ),
+      ),
+      body: Container(
+        color: greyBackgroundColor,
+        child: ListView(children: [
+          InformationsPageHeadline(
+            headline: 'Statistiken',
+            season: league.leagueSeason,
+          ),
+        ]),
+      ),
+    );
+  }
+}

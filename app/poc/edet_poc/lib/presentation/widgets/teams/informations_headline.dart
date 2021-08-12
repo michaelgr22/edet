@@ -13,7 +13,7 @@ class InformationsHeadline extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+        padding: const EdgeInsets.only(left: 20.0, top: 20.0, bottom: 20.0),
         child: Text(
           headline,
           style: const TextStyle(
