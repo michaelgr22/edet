@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/presentation/pages/league_informations_page.dart';
+import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
 import 'package:edet_poc/presentation/widgets/teams/standings_table.dart';
 import 'package:flutter/material.dart';
 
@@ -42,12 +43,13 @@ class _LeagueInformationsState extends State<LeagueInformations> {
         child: Container(
           color: Colors.white,
           width: double.infinity,
-          height: 350.0,
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
             child: Column(
               children: [
-                const LeagueInformationsHeadline(),
+                const InformationsHeadline(
+                  headline: 'LIGA',
+                ),
                 StandingsTable(
                   standings: widget.standings,
                   numberOfRows: 3,
@@ -68,27 +70,6 @@ class _LeagueInformationsState extends State<LeagueInformations> {
   StandingsRowModel getRowTSV() {
     return widget.standings
         .firstWhere((element) => element.teamShowname == 'TSV Meckenhausen');
-  }
-}
-
-class LeagueInformationsHeadline extends StatelessWidget {
-  const LeagueInformationsHeadline({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Align(
-      alignment: Alignment.topLeft,
-      child: Padding(
-        padding: EdgeInsets.only(left: 20.0, top: 20.0),
-        child: Text(
-          'LIGA',
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
   }
 }
 

@@ -10,6 +10,7 @@ class MatchesColumn extends StatelessWidget {
   final int numberOfRows;
   final double dividerHeight;
   final double rowHeight;
+  final bool isPreview;
 
   const MatchesColumn({
     Key? key,
@@ -17,6 +18,7 @@ class MatchesColumn extends StatelessWidget {
     required this.numberOfRows,
     required this.dividerHeight,
     required this.rowHeight,
+    required this.isPreview,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,25 @@ class MatchesColumn extends StatelessWidget {
   }
 
   List<MatchModel> matchesToShow() {
-    return matches.take(numberOfRows).toList();
+    if (isPreview) {
+      int lastMatchIndex = findIndexOfLastMatch();
+      return matches.sublist(lastMatchIndex, lastMatchIndex + numberOfRows);
+    } else {
+      return matches.take(numberOfRows).toList();
+    }
+  }
+
+  int findIndexOfLastMatch() {
+    DateTime today = DateTime.now();
+    int lastMatchIndex = 1;
+    bool found = false;
+    matches.asMap().forEach((index, match) {
+      if (!found && today.isBefore(match.dateTime)) {
+        lastMatchIndex = index - 1;
+        found = true;
+      }
+    });
+    return lastMatchIndex;
   }
 
   List<Widget> buildMatchesWithDateDividers() {
@@ -71,20 +91,17 @@ class MatchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: MatchRow(
-              match: match,
-              rowHeight: rowHeight,
-            ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          child: MatchRow(
+            match: match,
+            rowHeight: rowHeight,
           ),
-          RowDivider(height: dividerHeight)
-        ],
-      ),
+        ),
+        RowDivider(height: dividerHeight)
+      ],
     );
   }
 }
@@ -138,17 +155,7 @@ class MatchRow extends StatelessWidget {
         children: [
           buildTeamContainer(match.homeTeamShowname, match.homeTeamImagelink,
               true, screenSize, middleContainerWidth),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Container(
-              width: middleContainerWidth,
-              color: const Color(0xFFDCDCDC),
-              child: Align(
-                alignment: Alignment.center,
-                child: buildResultContainer(match),
-              ),
-            ),
-          ),
+          buildResultContainer(middleContainerWidth),
           buildTeamContainer(match.awayTeamShowname, match.awayTeamImagelink,
               false, screenSize, middleContainerWidth),
         ],
@@ -199,7 +206,22 @@ class MatchRow extends StatelessWidget {
     }
   }
 
-  Widget buildResultContainer(MatchModel match) {
+  Widget buildResultContainer(double middleContainerWidth) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Container(
+        width: middleContainerWidth,
+        height: 20.0,
+        color: const Color(0xFFDCDCDC),
+        child: Align(
+          alignment: Alignment.center,
+          child: buildResult(match),
+        ),
+      ),
+    );
+  }
+
+  Widget buildResult(MatchModel match) {
     String formattedTime = DateFormat('kk:mm').format(match.dateTime);
     return match.homeGoals != -1 && match.awayGoals != -1
         ? buildResultText("${match.homeGoals}:${match.awayGoals}")

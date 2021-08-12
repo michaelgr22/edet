@@ -4,6 +4,7 @@ import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/presentation/widgets/teams/league_informations.dart';
+import 'package:edet_poc/presentation/widgets/teams/matches_informations.dart';
 import 'package:flutter/material.dart';
 
 class TeamsTabLoaded extends StatelessWidget {
@@ -32,6 +33,9 @@ class TeamsTabLoaded extends StatelessWidget {
             league: league,
             standings: standings,
             leagueMatches: leagueMatches,
+          ),
+          MatchesInformations(
+            teamMatches: teamMatches,
           )
         ],
       ),
