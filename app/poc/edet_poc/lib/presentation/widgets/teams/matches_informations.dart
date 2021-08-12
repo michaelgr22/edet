@@ -1,3 +1,4 @@
+import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/presentation/pages/matches_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -20,7 +21,10 @@ class _MatchesInformationsState extends State<MatchesInformations> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+      padding: const EdgeInsets.only(
+          left: informationsPreviewContainerPadding,
+          right: informationsPreviewContainerPadding,
+          top: informationsPreviewContainerPadding),
       child: InkWell(
         onTap: () {
           Navigator.push(
