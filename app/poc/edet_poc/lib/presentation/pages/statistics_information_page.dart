@@ -37,10 +37,12 @@ class StatisticsInformationPage extends StatelessWidget {
           ),
           StatisticsContainer(
             players: players,
+            headline: 'TORJÄGER',
             isGoalsStat: true,
           ),
           StatisticsContainer(
             players: players,
+            headline: 'EINSÄTZE',
             isGoalsStat: false,
           )
         ]),
@@ -51,17 +53,20 @@ class StatisticsInformationPage extends StatelessWidget {
 
 class StatisticsContainer extends StatelessWidget {
   final List<PlayerModel> players;
+  final String headline;
   final bool isGoalsStat;
 
   const StatisticsContainer({
     Key? key,
     required this.players,
+    required this.headline,
     required this.isGoalsStat,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InformationsPageContainerBoilerplate(
+      headline: headline,
       child: PlayersStatisticsColumn(
         players: players,
         numberOfRows: players.length,
