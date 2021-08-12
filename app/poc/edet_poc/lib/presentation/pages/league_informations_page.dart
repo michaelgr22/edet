@@ -84,6 +84,7 @@ class MatchesContainer extends StatelessWidget {
         dividerHeight: 3.0,
         rowHeight: null,
         isPreview: false,
+        isResultColor: false,
       ),
     );
   }

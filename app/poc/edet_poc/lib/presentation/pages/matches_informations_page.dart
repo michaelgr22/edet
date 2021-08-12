@@ -61,6 +61,7 @@ class TeamMatchesContainer extends StatelessWidget {
         dividerHeight: 3.0,
         rowHeight: null,
         isPreview: false,
+        isResultColor: true,
       ),
     );
   }

@@ -54,6 +54,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
                   dividerHeight: 5.0,
                   rowHeight: 50.0,
                   isPreview: true,
+                  isResultColor: true,
                 )
               ],
             ),

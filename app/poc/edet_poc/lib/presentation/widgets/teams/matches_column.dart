@@ -11,6 +11,7 @@ class MatchesColumn extends StatelessWidget {
   final double dividerHeight;
   final double? rowHeight;
   final bool isPreview;
+  final bool isResultColor;
 
   const MatchesColumn({
     Key? key,
@@ -19,6 +20,7 @@ class MatchesColumn extends StatelessWidget {
     required this.dividerHeight,
     required this.rowHeight,
     required this.isPreview,
+    required this.isResultColor,
   }) : super(key: key);
 
   @override
@@ -74,9 +76,11 @@ class MatchesColumn extends StatelessWidget {
         isfirst = false;
       }
       widgets.add(MatchContainer(
-          match: matches[i],
-          rowHeight: rowHeight,
-          dividerHeight: dividerHeight));
+        match: matches[i],
+        rowHeight: rowHeight,
+        dividerHeight: dividerHeight,
+        isResultColor: isResultColor,
+      ));
     }
     return widgets;
   }
@@ -86,12 +90,14 @@ class MatchContainer extends StatelessWidget {
   final MatchModel match;
   final double? rowHeight;
   final double dividerHeight;
+  final bool isResultColor;
 
   const MatchContainer({
     Key? key,
     required this.match,
     required this.rowHeight,
     required this.dividerHeight,
+    required this.isResultColor,
   }) : super(key: key);
 
   @override
@@ -103,6 +109,7 @@ class MatchContainer extends StatelessWidget {
           child: MatchRow(
             match: match,
             rowHeight: rowHeight,
+            isResultColor: isResultColor,
           ),
         ),
         RowDivider(height: dividerHeight)
@@ -141,11 +148,13 @@ class DateDivider extends StatelessWidget {
 class MatchRow extends StatelessWidget {
   final MatchModel match;
   final double? rowHeight;
+  final bool isResultColor;
 
   const MatchRow({
     Key? key,
     required this.match,
     required this.rowHeight,
+    required this.isResultColor,
   }) : super(key: key);
 
   @override
@@ -217,13 +226,30 @@ class MatchRow extends StatelessWidget {
       child: Container(
         width: middleContainerWidth,
         height: 20.0,
-        color: const Color(0xFFDCDCDC),
+        color: isResultColor ? chooseColor() : const Color(0xFFDCDCDC),
         child: Align(
           alignment: Alignment.center,
           child: buildResult(match),
         ),
       ),
     );
+  }
+
+  Color chooseColor() {
+    int goalsTSV;
+    int goalsOther;
+
+    if (match.homeTeamShowname.contains('Meckenhausen')) {
+      goalsTSV = match.homeGoals;
+      goalsOther = match.awayGoals;
+    } else {
+      goalsTSV = match.awayGoals;
+      goalsOther = match.homeGoals;
+    }
+
+    if (goalsTSV > goalsOther) return Colors.green;
+    if (goalsTSV < goalsOther) return Colors.red;
+    return const Color(0xFFDCDCDC);
   }
 
   Widget buildResult(MatchModel match) {
