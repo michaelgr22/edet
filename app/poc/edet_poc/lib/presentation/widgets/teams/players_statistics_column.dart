@@ -111,15 +111,13 @@ class StatisticRow extends StatelessWidget {
   }
 
   Widget buildImage() {
-    return SizedBox(
-      width: 75.0,
-      child: player.imagelink != null
-          ? Image.network(player.imagelink.toString())
-          : const SizedBox(
-              width: 20.0,
-              height: 20.0,
-            ),
-    );
+    Widget image;
+    if (player.imagelink != null && !player.imagelink!.endsWith('.svg')) {
+      image = Image.network(player.imagelink.toString());
+    } else {
+      image = Image.asset('assets/images/player_placeholder_image.jpeg');
+    }
+    return SizedBox(width: 75.0, child: image);
   }
 
   Widget buildName() {
