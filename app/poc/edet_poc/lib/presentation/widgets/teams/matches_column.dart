@@ -31,7 +31,12 @@ class MatchesColumn extends StatelessWidget {
   List<MatchModel> matchesToShow() {
     if (isPreview) {
       int lastMatchIndex = findIndexOfLastMatch();
-      return matches.sublist(lastMatchIndex, lastMatchIndex + numberOfRows);
+      if ((lastMatchIndex + numberOfRows) >= matches.length) {
+        return matches.sublist(
+            matches.length - 1 - numberOfRows, matches.length - 1);
+      } else {
+        return matches.sublist(lastMatchIndex, lastMatchIndex + numberOfRows);
+      }
     } else {
       return matches.take(numberOfRows).toList();
     }

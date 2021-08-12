@@ -149,7 +149,7 @@ class MatchesContainer extends StatelessWidget {
         numberOfRows: leagueMatches.length,
         dividerHeight: 3.0,
         rowHeight: 30.0,
-        isPreview: true,
+        isPreview: false,
       ),
     );
   }
