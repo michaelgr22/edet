@@ -3,6 +3,8 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
+import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_container_boilerplate.dart';
+import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_headline.dart';
 import 'package:edet_poc/presentation/widgets/teams/matches_column.dart';
 import 'package:edet_poc/presentation/widgets/teams/standings_table.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +36,8 @@ class LeagueInformationsPage extends StatelessWidget {
         color: greyBackgroundColor,
         child: ListView(
           children: [
-            LeagueHeadline(
-              league: league.leagueShowname,
+            InformationsPageHeadline(
+              headline: league.leagueShowname,
               season: league.leagueSeason,
             ),
             StandingsContainer(standings: standings),
@@ -57,80 +59,12 @@ class StandingsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerBoilerplate(
+    return InformationsPageContainerBoilerplate(
       child: StandingsTable(
         standings: standings,
         numberOfRows: standings.length,
         dividerHeight: 3.0,
         rowHeight: 30.0,
-      ),
-    );
-  }
-}
-
-class ContainerBoilerplate extends StatelessWidget {
-  final Widget child;
-
-  const ContainerBoilerplate({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-      child: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-          child: child,
-        ),
-      ),
-    );
-  }
-}
-
-class LeagueHeadline extends StatelessWidget {
-  final String league;
-  final String season;
-
-  const LeagueHeadline({
-    Key? key,
-    required this.league,
-    required this.season,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-      child: Container(
-        color: Colors.white,
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-            child: Column(
-              children: [
-                Text(
-                  league,
-                  style: const TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  season,
-                  style: const TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -143,12 +77,12 @@ class MatchesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerBoilerplate(
+    return InformationsPageContainerBoilerplate(
       child: MatchesColumn(
         matches: leagueMatches,
         numberOfRows: leagueMatches.length,
         dividerHeight: 3.0,
-        rowHeight: 30.0,
+        rowHeight: null,
         isPreview: false,
       ),
     );

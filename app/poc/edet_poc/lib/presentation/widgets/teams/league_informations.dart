@@ -27,9 +27,9 @@ class _LeagueInformationsState extends State<LeagueInformations> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-          left: informationsPreviewContainerPadding,
-          right: informationsPreviewContainerPadding,
-          top: informationsPreviewContainerPadding),
+          left: defaultContainerPadding,
+          right: defaultContainerPadding,
+          top: defaultContainerPadding),
       child: InkWell(
         onTap: () {
           Navigator.push(

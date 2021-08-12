@@ -36,6 +36,7 @@ class TeamsTabLoaded extends StatelessWidget {
           ),
           MatchesInformations(
             teamMatches: teamMatches,
+            league: league,
           )
         ],
       ),

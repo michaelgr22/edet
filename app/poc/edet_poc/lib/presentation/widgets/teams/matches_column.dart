@@ -9,7 +9,7 @@ class MatchesColumn extends StatelessWidget {
   final List<MatchModel> matches;
   final int numberOfRows;
   final double dividerHeight;
-  final double rowHeight;
+  final double? rowHeight;
   final bool isPreview;
 
   const MatchesColumn({
@@ -84,7 +84,7 @@ class MatchesColumn extends StatelessWidget {
 
 class MatchContainer extends StatelessWidget {
   final MatchModel match;
-  final double rowHeight;
+  final double? rowHeight;
   final double dividerHeight;
 
   const MatchContainer({
@@ -99,7 +99,7 @@ class MatchContainer extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 5.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: MatchRow(
             match: match,
             rowHeight: rowHeight,
@@ -140,7 +140,7 @@ class DateDivider extends StatelessWidget {
 
 class MatchRow extends StatelessWidget {
   final MatchModel match;
-  final double rowHeight;
+  final double? rowHeight;
 
   const MatchRow({
     Key? key,

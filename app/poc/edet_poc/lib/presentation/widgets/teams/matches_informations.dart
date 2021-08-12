@@ -1,4 +1,5 @@
 import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/presentation/pages/matches_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -6,11 +7,13 @@ import 'package:edet_poc/presentation/widgets/teams/matches_column.dart';
 import 'package:flutter/material.dart';
 
 class MatchesInformations extends StatefulWidget {
+  final LeagueModel league;
   final List<MatchModel> teamMatches;
 
   MatchesInformations({
     Key? key,
     required this.teamMatches,
+    required this.league,
   }) : super(key: key);
 
   @override
@@ -22,9 +25,9 @@ class _MatchesInformationsState extends State<MatchesInformations> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-          left: informationsPreviewContainerPadding,
-          right: informationsPreviewContainerPadding,
-          top: informationsPreviewContainerPadding),
+          left: defaultContainerPadding,
+          right: defaultContainerPadding,
+          top: defaultContainerPadding),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -32,6 +35,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             MaterialPageRoute(
               builder: (_) => MatchesInformationsPage(
                 teamMatches: widget.teamMatches,
+                league: widget.league,
               ),
             ),
           );
