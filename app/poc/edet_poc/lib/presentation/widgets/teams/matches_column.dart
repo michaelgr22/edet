@@ -159,7 +159,7 @@ class MatchRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double middleContainerWidth = 50.0;
+    const double middleContainerWidth = 60.0;
     var screenSize = MediaQuery.of(context).size;
 
     return Container(

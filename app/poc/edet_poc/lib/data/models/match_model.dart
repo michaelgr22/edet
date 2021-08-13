@@ -31,7 +31,7 @@ class MatchModel {
 
   MatchModel.fromJson(Map<String, dynamic> json)
       : id = json['match_id'],
-        dateTime = DateTime.parse(json['match_date_time']),
+        dateTime = DateTime.parse(json['match_date_time'] + 'Z').toLocal(),
         homeTeamId = json['match_home_team_id'],
         homeTeamImagelink = json['match_home_image_link'],
         homeTeamShowname = json['match_home_team_showname'],
