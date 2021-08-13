@@ -2,7 +2,7 @@
     package="com.example.edet_poc">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="edet_poc"
+        android:label="Ein Dorf ein Team"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

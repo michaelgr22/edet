@@ -17,6 +17,7 @@ dependencies:
   build_runner: ^1.11.0
   intl: ^0.17.0
   flutter_html: ^2.1.1
+  flutter_launcher_icons: ^0.9.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -30,6 +31,11 @@ dev_dependencies:
  
   flutter_lints: ^1.0.0
 
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/tsv_icon.png"
 
 
 # The following section is specific to Flutter.
