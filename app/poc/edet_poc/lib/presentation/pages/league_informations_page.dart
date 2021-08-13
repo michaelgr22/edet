@@ -64,7 +64,8 @@ class StandingsContainer extends StatelessWidget {
         standings: standings,
         numberOfRows: standings.length,
         dividerHeight: 3.0,
-        rowHeight: 30.0,
+        rowHeight: null,
+        isPreview: false,
       ),
     );
   }

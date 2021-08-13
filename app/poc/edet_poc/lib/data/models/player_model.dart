@@ -21,9 +21,11 @@ class PlayerModel {
 
   PlayerModel.fromJson(Map<String, dynamic> json)
       : id = json['player_id'],
-        firstname = json['player_firstname'],
-        lastname = json['player_lastname'],
-        birthday = DateTime.parse(json['player_birthday']),
+        firstname = json['player_firstname'] ?? " ",
+        lastname = json['player_lastname'] ?? " ",
+        birthday = json['player_birthday'] != null
+            ? DateTime.parse(json['player_birthday'])
+            : null,
         deployments = json['player_deployments'],
         goals = json['player_goals'],
         position = json['player_position'],

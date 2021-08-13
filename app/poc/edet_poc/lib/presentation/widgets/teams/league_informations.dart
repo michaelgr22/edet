@@ -54,6 +54,7 @@ class _LeagueInformationsState extends State<LeagueInformations> {
               numberOfRows: 3,
               dividerHeight: 5.0,
               rowHeight: 70.0,
+              isPreview: true,
             ),
             LeagueInformationsTSVPosition(
               positionTSV: getRowTSV().position,
@@ -66,7 +67,7 @@ class _LeagueInformationsState extends State<LeagueInformations> {
 
   StandingsRowModel getRowTSV() {
     return widget.standings
-        .firstWhere((element) => element.teamShowname == 'TSV Meckenhausen');
+        .firstWhere((element) => element.teamShowname.contains('Meckenhausen'));
   }
 }
 

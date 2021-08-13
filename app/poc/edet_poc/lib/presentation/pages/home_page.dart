@@ -38,7 +38,8 @@ class TabBarContent extends StatelessWidget {
       NewsList(),
       TeamsTab(
           teamname: 'tsv-meckenhausen', teamclass: 'm1', teamseason: '2021-22'),
-      Text("drei"),
+      TeamsTab(
+          teamname: 'tsv-meckenhausen', teamclass: 'm2', teamseason: '2021-22'),
     ]);
   }
 }
