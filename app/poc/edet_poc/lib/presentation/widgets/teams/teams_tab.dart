@@ -3,6 +3,7 @@ import 'package:edet_poc/cubit/teams_cubit.dart';
 import 'package:edet_poc/data/datasources/fupa_remote_datasource.dart';
 import 'package:edet_poc/data/repositories/fupa_repository.dart';
 import 'package:edet_poc/presentation/widgets/teams/teams_tab_loaded.dart';
+import 'package:edet_poc/presentation/widgets/teams/teams_tab_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,11 +38,7 @@ class TeamsTab extends StatelessWidget {
 
   Widget stateManager(TeamsState state) {
     if (state is TeamsStateInitial || state is TeamsStateLoading) {
-      return Container(
-        color: Colors.black,
-        width: 100,
-        height: 100,
-      );
+      return const TeamsTabLoading();
     } else if (state is TeamsStateLoaded) {
       return TeamsTabLoaded(
         league: state.league,
