@@ -48,7 +48,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
               matches: widget.teamMatches,
               numberOfRows: 3,
               dividerHeight: 5.0,
-              rowHeight: 50.0,
+              rowHeight: null,
               isPreview: true,
               isResultColor: true,
             )
