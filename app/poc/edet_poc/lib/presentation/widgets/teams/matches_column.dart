@@ -12,6 +12,7 @@ class MatchesColumn extends StatelessWidget {
   final double? rowHeight;
   final bool isPreview;
   final bool isResultColor;
+  final bool showLeague;
 
   const MatchesColumn({
     Key? key,
@@ -21,6 +22,7 @@ class MatchesColumn extends StatelessWidget {
     required this.rowHeight,
     required this.isPreview,
     required this.isResultColor,
+    required this.showLeague,
   }) : super(key: key);
 
   @override
@@ -80,6 +82,7 @@ class MatchesColumn extends StatelessWidget {
         rowHeight: rowHeight,
         dividerHeight: dividerHeight,
         isResultColor: isResultColor,
+        showLeague: showLeague,
       ));
     }
     return widgets;
@@ -91,6 +94,7 @@ class MatchContainer extends StatelessWidget {
   final double? rowHeight;
   final double dividerHeight;
   final bool isResultColor;
+  final bool showLeague;
 
   const MatchContainer({
     Key? key,
@@ -98,12 +102,19 @@ class MatchContainer extends StatelessWidget {
     required this.rowHeight,
     required this.dividerHeight,
     required this.isResultColor,
+    required this.showLeague,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        showLeague
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Text(match.leagueShowname),
+              )
+            : const SizedBox(height: 0.0, width: 0.0),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: MatchRow(

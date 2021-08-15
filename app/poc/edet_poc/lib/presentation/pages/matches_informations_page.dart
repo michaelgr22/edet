@@ -62,6 +62,7 @@ class TeamMatchesContainer extends StatelessWidget {
         rowHeight: null,
         isPreview: false,
         isResultColor: true,
+        showLeague: true,
       ),
     );
   }

@@ -51,6 +51,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
               rowHeight: null,
               isPreview: true,
               isResultColor: true,
+              showLeague: true,
             )
           ],
         ),

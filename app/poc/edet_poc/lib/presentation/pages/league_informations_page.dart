@@ -86,6 +86,7 @@ class MatchesContainer extends StatelessWidget {
         rowHeight: null,
         isPreview: false,
         isResultColor: false,
+        showLeague: false,
       ),
     );
   }
