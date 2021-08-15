@@ -68,6 +68,7 @@ ON CONFLICT (match_date_time, match_home_team_id, match_away_team_id, match_leag
 DO UPDATE SET
 match_link = EXCLUDED.match_link, match_home_goals = EXCLUDED.match_home_goals, match_away_goals = EXCLUDED.match_away_goals,
 match_cancelled = EXCLUDED.match_cancelled;
+
 """.format(tablename)
     values = (match['date_time'], match['match_link'], home_team_id, away_team_id,
               match['home_goals'], match['away_goals'], match['cancelled'], league_id)
