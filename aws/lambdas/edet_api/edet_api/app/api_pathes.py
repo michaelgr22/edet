@@ -1,3 +1,6 @@
+from . import ticker_methods
+
+
 def mcknews(db, event):
     tablename = 'mck.news'
 
@@ -146,3 +149,10 @@ ORDER BY match_date_time asc;""".format(matches_tablename, teams_tablename, leag
                                  'match_home_team_showname': row[4], 'match_away_team_id': row[5], 'match_away_image_link': row[6], 'match_away_team_showname': row[7],
                                  'match_link': row[8], 'match_home_goals': row[9], 'match_away_goals': row[10], 'match_cancelled': row[11], 'match_league_showname': row[12]},
                     result))
+
+
+def ticker(db, event):
+    if event['httpMethod'] == 'GET':
+        return ticker_methods.ticker_get(db, event)
+    elif event['httpMethod'] == 'POST':
+        return ticker_methods.ticker_post(db, event)

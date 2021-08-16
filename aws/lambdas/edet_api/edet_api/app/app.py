@@ -26,6 +26,8 @@ def get_response(event):
         return api_pathes.standings(db, event)
     elif event['path'] == '/mainleague':
         return api_pathes.mainleague(db, event)
+    elif event['path'] == '/ticker':
+        return api_pathes.ticker(db, event)
 
 
 def lambda_handler(event, context):
@@ -36,7 +38,8 @@ def lambda_handler(event, context):
         response = get_response(event)
         if not response:
             statusCode = 401
-    except:
+    except Exception as e:
+        print(e)
         statusCode = 400
 
     responseObject = {}
