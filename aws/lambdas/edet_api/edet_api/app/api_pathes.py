@@ -155,4 +155,7 @@ def ticker(db, event):
     if event['httpMethod'] == 'GET':
         return ticker_methods.ticker_get(db, event)
     elif event['httpMethod'] == 'POST':
-        return ticker_methods.ticker_post(db, event)
+        if event['path'] == '/ticker/add':
+            return ticker_methods.ticker_post_add(db, event)
+        elif event['path'] == '/ticker/delete':
+            return ticker_methods.ticker_post_delete(db, event)

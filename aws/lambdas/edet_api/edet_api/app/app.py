@@ -26,7 +26,7 @@ def get_response(event):
         return api_pathes.standings(db, event)
     elif event['path'] == '/mainleague':
         return api_pathes.mainleague(db, event)
-    elif event['path'] == '/ticker':
+    elif event['path'].startswith('/ticker'):
         return api_pathes.ticker(db, event)
 
 

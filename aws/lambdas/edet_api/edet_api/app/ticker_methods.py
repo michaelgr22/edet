@@ -1,3 +1,6 @@
+import json
+
+
 def ticker_get(db, event):
     match_id = event['queryStringParameters']['match_id']
 
@@ -26,5 +29,32 @@ ORDER BY ticker_date_time asc;""".format(ticker_tablename, tickeractions_tablena
                                  'player2_firstname': row[9], 'player2_lastname': row[10], 'ticker_comment': row[11], 'ticker_match_id':  row[12]}, result))
 
 
-def ticker_post(db, event):
-    pass
+def ticker_post_add(db, event):
+    body = json.loads(event['body'])
+
+    ticker_tablename = 'matches.ticker'
+
+    sql = """INSERT INTO {} (ticker_date_time, ticker_action_id, ticker_team_id, ticker_player1_id, ticker_player2_id, ticker_comment, ticker_match_id)
+VALUES (%s, %s,%s ,%s, %s, %s, %s) RETURNING ticker_id;""".format(ticker_tablename)
+
+    values = (body['ticker_date_time'], body['ticker_action_id'], body['ticker_team_id'],
+              body['ticker_player1_id'], body['ticker_player2_id'], body['ticker_comment'], body['ticker_match_id'])
+    result = db.execute_sql(sql, values=values, autocommit=True)
+    ticker_id = result[0][0]
+
+    return {'ticker_id': ticker_id}
+
+
+def ticker_post_delete(db, event):
+    body = json.loads(event['body'])
+
+    ticker_tablename = 'matches.ticker'
+
+    sql = """DELETE FROM matches.ticker WHERE ticker_id = %s RETURNING ticker_id""".format(
+        ticker_tablename)
+
+    values = (body['ticker_id'],)
+    result = db.execute_sql(sql, values=values, autocommit=True)
+    ticker_id = result[0][0]
+
+    return {'ticker_id': ticker_id}
