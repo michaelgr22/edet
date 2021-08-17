@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:edet_poc/data/models/news_model.dart';
-import 'package:edet_poc/core/errors/exceptions.dart';
+import 'package:edet_poc/data/datasources/http_functions.dart';
 
 abstract class MckRemoteDataSource {
   Future<List<NewsModel>> getNews();
@@ -16,25 +16,17 @@ class MckRemoteDataSourceImpl implements MckRemoteDataSource {
 
   @override
   Future<List<NewsModel>> getNews() async {
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     return _convertResponseToModels(response);
   }
 
   @override
   Future<NewsModel> getNewsItemfromId(int id) async {
     _parameters = {'id': id.toString()};
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     return NewsModel.fromJson(json.decode(response.body));
-  }
-
-  Future<http.Response> _sendGetRequest() async {
-    final Uri url = Uri.https(_authority, _unencodedPath, _parameters);
-    try {
-      final response = await http.get(url);
-      return response;
-    } on Exception {
-      throw NetworkException();
-    }
   }
 
   List<NewsModel> _convertResponseToModels(http.Response response) {

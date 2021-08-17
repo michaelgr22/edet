@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:edet_poc/core/errors/exceptions.dart';
 import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
+import 'package:edet_poc/data/datasources/http_functions.dart';
 
 abstract class FupaRemoteDataSource {
   final String teamname;
@@ -53,7 +53,8 @@ class FupaRemoteDataSourceImpl implements FupaRemoteDataSource {
   Future<List<PlayerModel>> getPlayers() async {
     _unencodedPath = '/dev/players';
 
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     List<dynamic> players = json.decode(response.body);
     return players.map((player) => PlayerModel.fromJson(player)).toList();
   }
@@ -61,21 +62,24 @@ class FupaRemoteDataSourceImpl implements FupaRemoteDataSource {
   @override
   Future<List<MatchModel>> getTeamMatches() async {
     _unencodedPath = '/dev/teammatches';
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     return _convertResponseToMatchModels(response);
   }
 
   @override
   Future<List<MatchModel>> getLeagueMatches() async {
     _unencodedPath = '/dev/leaguematches';
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     return _convertResponseToMatchModels(response);
   }
 
   @override
   Future<List<StandingsRowModel>> getStandings() async {
     _unencodedPath = '/dev/standings';
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     List<dynamic> standingsRows = json.decode(response.body);
     return standingsRows.map((row) => StandingsRowModel.fromJson(row)).toList();
   }
@@ -83,18 +87,9 @@ class FupaRemoteDataSourceImpl implements FupaRemoteDataSource {
   @override
   Future<LeagueModel> getLeague() async {
     _unencodedPath = '/dev/mainleague';
-    final http.Response response = await _sendGetRequest();
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
     return LeagueModel.fromJson(json.decode(response.body));
-  }
-
-  Future<http.Response> _sendGetRequest() async {
-    final Uri url = Uri.https(_authority, _unencodedPath, _parameters);
-    try {
-      final response = await http.get(url);
-      return response;
-    } on Exception {
-      throw NetworkException();
-    }
   }
 
   List<MatchModel> _convertResponseToMatchModels(http.Response response) {
