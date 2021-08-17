@@ -49,7 +49,7 @@ class TickerModel {
 
   Map<String, dynamic> toJsonForApi(TickerModel model) {
     return {
-      'ticker_date_time': dateTime.toString(),
+      'ticker_date_time': dateTime.toUtc().toString(),
       'ticker_action_id': actionId,
       'ticker_team_id': teamId,
       'ticker_player1_id': player1Id,
