@@ -42,5 +42,7 @@ class MatchModel {
         homeGoals = json['match_home_goals'] ?? -1,
         awayGoals = json['match_away_goals'] ?? -1,
         cancelled = json['match_cancelled'],
-        leagueShowname = json['match_league_showname'];
+        leagueShowname = json['match_league_showname'] != 'Testspiele'
+            ? json['match_league_showname']
+            : 'Testspiel';
 }

@@ -1,5 +1,7 @@
 import 'package:edet_poc/core/extensions.dart';
 import 'package:edet_poc/data/models/match_model.dart';
+import 'package:edet_poc/presentation/pages/match_details_page.dart';
+import 'package:edet_poc/presentation/widgets/teams/match_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -83,18 +85,20 @@ class MatchesColumn extends StatelessWidget {
         dividerHeight: dividerHeight,
         isResultColor: isResultColor,
         showLeague: showLeague,
+        isPreview: isPreview,
       ));
     }
     return widgets;
   }
 }
 
-class MatchContainer extends StatelessWidget {
+class MatchContainer extends StatefulWidget {
   final MatchModel match;
   final double? rowHeight;
   final double dividerHeight;
   final bool isResultColor;
   final bool showLeague;
+  final bool isPreview;
 
   const MatchContainer({
     Key? key,
@@ -103,27 +107,49 @@ class MatchContainer extends StatelessWidget {
     required this.dividerHeight,
     required this.isResultColor,
     required this.showLeague,
+    required this.isPreview,
   }) : super(key: key);
 
   @override
+  State<MatchContainer> createState() => _MatchContainerState();
+}
+
+class _MatchContainerState extends State<MatchContainer> {
+  @override
   Widget build(BuildContext context) {
+    if (widget.isPreview) {
+      return buildMatchContainer();
+    }
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MatchDetailsPage(match: widget.match),
+            ),
+          );
+        },
+        child: buildMatchContainer());
+  }
+
+  Widget buildMatchContainer() {
     return Column(
       children: [
-        showLeague
+        widget.showLeague
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 15.0),
-                child: Text(match.leagueShowname),
+                child: Text(widget.match.leagueShowname),
               )
             : const SizedBox(height: 0.0, width: 0.0),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: MatchRow(
-            match: match,
-            rowHeight: rowHeight,
-            isResultColor: isResultColor,
+            match: widget.match,
+            rowHeight: widget.rowHeight,
+            isResultColor: widget.isResultColor,
           ),
         ),
-        RowDivider(height: dividerHeight)
+        RowDivider(height: widget.dividerHeight)
       ],
     );
   }
@@ -152,130 +178,6 @@ class DateDivider extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-}
-
-class MatchRow extends StatelessWidget {
-  final MatchModel match;
-  final double? rowHeight;
-  final bool isResultColor;
-
-  const MatchRow({
-    Key? key,
-    required this.match,
-    required this.rowHeight,
-    required this.isResultColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    const double middleContainerWidth = 60.0;
-    var screenSize = MediaQuery.of(context).size;
-
-    return Container(
-      height: rowHeight,
-      color: Colors.white,
-      child: Row(
-        children: [
-          buildTeamContainer(match.homeTeamShowname, match.homeTeamImagelink,
-              true, screenSize, middleContainerWidth),
-          buildResultContainer(middleContainerWidth),
-          buildTeamContainer(match.awayTeamShowname, match.awayTeamImagelink,
-              false, screenSize, middleContainerWidth),
-        ],
-      ),
-    );
-  }
-
-  Widget buildTeamContainer(String teamShowname, String teamImagelink,
-      bool isHomeTeam, Size size, double middleContainerWidth) {
-    double width = (size.width - middleContainerWidth - 70.0) / 2;
-    double imageWidth = 20.0;
-    if (isHomeTeam) {
-      return SizedBox(
-        width: width,
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(teamShowname),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
-                width: imageWidth,
-                child: Image.network(teamImagelink),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(
-        width: width,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: SizedBox(
-                width: imageWidth,
-                child: Image.network(teamImagelink),
-              ),
-            ),
-            Expanded(
-              child: Text(teamShowname),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  Widget buildResultContainer(double middleContainerWidth) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Container(
-        width: middleContainerWidth,
-        height: 20.0,
-        color: isResultColor ? chooseColor() : const Color(0xFFDCDCDC),
-        child: Align(
-          alignment: Alignment.center,
-          child: buildResult(match),
-        ),
-      ),
-    );
-  }
-
-  Color chooseColor() {
-    int goalsTSV;
-    int goalsOther;
-
-    if (match.homeTeamShowname.contains('Meckenhausen')) {
-      goalsTSV = match.homeGoals;
-      goalsOther = match.awayGoals;
-    } else {
-      goalsTSV = match.awayGoals;
-      goalsOther = match.homeGoals;
-    }
-
-    if (goalsTSV > goalsOther) return Colors.green;
-    if (goalsTSV < goalsOther) return Colors.red;
-    return const Color(0xFFDCDCDC);
-  }
-
-  Widget buildResult(MatchModel match) {
-    String formattedTime = DateFormat('kk:mm').format(match.dateTime);
-    return match.homeGoals != -1 && match.awayGoals != -1
-        ? buildResultText("${match.homeGoals}:${match.awayGoals}")
-        : !match.cancelled
-            ? buildResultText(formattedTime)
-            : buildResultText("abg");
-  }
-
-  Widget buildResultText(String text) {
-    return Text(
-      text,
-      style: const TextStyle(fontWeight: FontWeight.bold),
     );
   }
 }
