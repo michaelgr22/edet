@@ -9,7 +9,7 @@ def ticker_get(db, event):
     teams_tablename = 'teams.all_teams'
     players_tablename = 'teams.players'
 
-    sql = """SELECT ticker_id, ticker_date_time, actions.action_name, teams.team_id, teams.team_showname, 
+    sql = """SELECT ticker_id, ticker_date_time, actions.action_id, actions.action_name, teams.team_id, teams.team_showname, 
 ticker_player1_id, players1.player_firstname as player1_firstname, players1.player_lastname as player1_lastname, 
 ticker_player2_id, players2.player_firstname as player2_firstname, players2.player_lastname as player2_lastname,
 ticker_comment, ticker_match_id
@@ -24,9 +24,9 @@ ORDER BY ticker_date_time asc;""".format(ticker_tablename, tickeractions_tablena
     values = (match_id,)
     result = db.execute_sql(sql, values=values)
 
-    return list(map(lambda row: {'ticker_id': row[0], 'ticker_date_time': row[1], 'action_name': row[2], 'team_id': row[3], 'team_showname': row[4],
-                                 'ticker_player1_id': row[5], 'player1_firstname': row[6], 'player1_lastname': row[7], 'ticker_player2_id': row[8],
-                                 'player2_firstname': row[9], 'player2_lastname': row[10], 'ticker_comment': row[11], 'ticker_match_id':  row[12]}, result))
+    return list(map(lambda row: {'ticker_id': row[0], 'ticker_date_time': row[1], 'action_id': row[2], 'action_name': row[3], 'team_id': row[4], 'team_showname': row[5],
+                                 'ticker_player1_id': row[6], 'player1_firstname': row[7], 'player1_lastname': row[8], 'ticker_player2_id': row[9],
+                                 'player2_firstname': row[10], 'player2_lastname': row[11], 'ticker_comment': row[12], 'ticker_match_id':  row[13]}, result))
 
 
 def ticker_post_add(db, event):
