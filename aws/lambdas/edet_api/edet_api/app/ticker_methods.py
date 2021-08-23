@@ -16,7 +16,7 @@ ticker_comment, ticker_match_id
 FROM {0}
 JOIN {1} actions ON {0}.ticker_action_id=actions.action_id
 JOIN {2} teams ON {0}.ticker_team_id=teams.team_id
-JOIN {3} players1 ON {0}.ticker_player1_id=players1.player_id
+LEFT JOIN {3} players1 ON {0}.ticker_player1_id=players1.player_id
 LEFT JOIN {3} players2 ON {0}.ticker_player2_id=players2.player_id
 WHERE ticker_match_id = %s
 ORDER BY ticker_minute desc;""".format(ticker_tablename, tickeractions_tablename, teams_tablename, players_tablename)
