@@ -14,7 +14,7 @@ dependencies:
   http: ^0.13.3
   flutter_bloc: ^7.1.0
   mockito: ^5.0.4
-  build_runner: ^1.11.0
+  build_runner: ^2.1.1
   intl: ^0.17.0
   flutter_html: ^2.1.1
   flutter_launcher_icons: ^0.9.1
@@ -42,6 +42,8 @@ flutter_icons:
 flutter:
   assets:
    - assets/images/
+   - assets/icons/
+   - assets/icons/liveticker/
 
 
   uses-material-design: true

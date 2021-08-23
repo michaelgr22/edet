@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:edet_poc/data/datasources/ticker_remote_datasource.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Map<String, dynamic> tickerJson = {
   'ticker_id': 1,
-  'ticker_date_time': '2021-08-08 13:43:00',
+  'ticker_minute': 1,
   'action_id': 1,
   'action_name': 'Tor',
   'team_id': 3754,
@@ -42,8 +44,9 @@ void main() {
     //assert
     expect(idAdded, isA<int>());
 
+    sleep(const Duration(seconds: 1));
     //act
-    final idDeleted = await remoteDataSource.deleteTickerEntry(8);
+    final idDeleted = await remoteDataSource.deleteTickerEntry(idAdded);
     //assert
     expect(idDeleted, isA<int>());
   });

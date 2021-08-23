@@ -1,13 +1,13 @@
 class TickerModel {
   final int id;
-  final DateTime dateTime;
+  final int minute;
   final int actionId;
   final String action;
   final int teamId;
   final String teamShowname;
-  final int player1Id;
-  final String player1Firstname;
-  final String player1Lastname;
+  final int? player1Id;
+  final String? player1Firstname;
+  final String? player1Lastname;
   final int? player2Id;
   final String? player2Firstname;
   final String? player2Lastname;
@@ -16,14 +16,14 @@ class TickerModel {
 
   TickerModel({
     required this.id,
-    required this.dateTime,
+    required this.minute,
     required this.actionId,
     required this.action,
     required this.teamId,
     required this.teamShowname,
-    required this.player1Id,
-    required this.player1Firstname,
-    required this.player1Lastname,
+    this.player1Id,
+    this.player1Firstname,
+    this.player1Lastname,
     this.player2Id,
     this.player2Firstname,
     this.player2Lastname,
@@ -33,7 +33,7 @@ class TickerModel {
 
   TickerModel.fromJson(Map<String, dynamic> json)
       : id = json['ticker_id'],
-        dateTime = DateTime.parse(json['ticker_date_time'] + 'Z').toLocal(),
+        minute = json['ticker_minute'],
         actionId = json['action_id'],
         action = json['action_name'],
         teamId = json['team_id'],
@@ -49,7 +49,7 @@ class TickerModel {
 
   Map<String, dynamic> toJsonForApi(TickerModel model) {
     return {
-      'ticker_date_time': dateTime.toUtc().toString(),
+      'ticker_minute': minute,
       'ticker_action_id': actionId,
       'ticker_team_id': teamId,
       'ticker_player1_id': player1Id,
