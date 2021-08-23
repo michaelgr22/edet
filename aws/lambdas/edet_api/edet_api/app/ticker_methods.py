@@ -29,6 +29,16 @@ ORDER BY ticker_minute desc;""".format(ticker_tablename, tickeractions_tablename
                                  'player2_firstname': row[10], 'player2_lastname': row[11], 'ticker_comment': row[12], 'ticker_match_id':  row[13]}, result))
 
 
+def ticker_get_actions(db, event):
+    tickeractions_tablename = 'matches.ticker_actions'
+
+    sql = """SELECT action_id, action_name FROM {0} ORDER BY action_id ASC;""".format(
+        tickeractions_tablename)
+    result = db.execute_sql(sql)
+
+    return list(map(lambda row: {'action_id': row[0], 'action_name': row[1]}, result))
+
+
 def ticker_post_add(db, event):
     body = json.loads(event['body'])
 

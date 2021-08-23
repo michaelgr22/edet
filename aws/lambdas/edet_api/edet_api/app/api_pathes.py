@@ -152,7 +152,9 @@ ORDER BY match_date_time asc;""".format(matches_tablename, teams_tablename, leag
 
 
 def ticker(db, event):
-    if event['httpMethod'] == 'GET':
+    if event['path'].startswith('/ticker/actions'):
+        return ticker_methods.ticker_get_actions(db, event)
+    elif event['httpMethod'] == 'GET':
         return ticker_methods.ticker_get(db, event)
     elif event['httpMethod'] == 'POST':
         if event['path'] == '/ticker/add':
