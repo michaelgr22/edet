@@ -1,15 +1,20 @@
 import 'package:edet_poc/constants.dart';
+import 'package:edet_poc/data/datasources/ticker_remote_datasource.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
+import 'package:edet_poc/data/repositories/ticker_repository.dart';
+import 'package:edet_poc/presentation/widgets/global/global_snack_bar.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
 
 class LiveTickerRow extends StatelessWidget {
+  final Future<void> Function(BuildContext context) refreshTicker;
   final TickerModel tickerEntry;
   final MatchModel match;
 
   const LiveTickerRow({
     Key? key,
+    required this.refreshTicker,
     required this.tickerEntry,
     required this.match,
   }) : super(key: key);
@@ -20,6 +25,8 @@ class LiveTickerRow extends StatelessWidget {
     const minuteAndImageWidth = 30.0;
     const minuteAndImagePadding = 12.0;
     const textPadding = 20.0;
+    const iconPadding = 15.0;
+    const iconWidth = 20.0;
     Map<String, String> properties = propertyManager();
     return properties['icon_path']!.isNotEmpty
         ? Row(
@@ -48,19 +55,25 @@ class LiveTickerRow extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: textPadding),
+                padding: const EdgeInsets.only(left: textPadding),
                 child: SizedBox(
                   width: screenSize.width -
                       minuteAndImageWidth * 2 -
                       minuteAndImagePadding * 2 -
-                      textPadding * 2 -
-                      defaultContainerPadding * 2,
+                      textPadding -
+                      iconPadding * 2 -
+                      defaultContainerPadding * 2 -
+                      iconWidth,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: buildTickerTextColumn(properties),
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: iconPadding),
+                child: buildDeleteButton(context, iconWidth),
               )
             ],
           )
@@ -192,5 +205,41 @@ class LiveTickerRow extends StatelessWidget {
           };
         }
     }
+  }
+
+  Future<int> _deleteTickerEntry() async {
+    final TickerRemoteDataSource remoteDataSource =
+        TickerRemoteDataSourceImpl();
+    final TickerRepository tickerRepository =
+        TickerRepository(remoteDataSource: remoteDataSource);
+    try {
+      return await tickerRepository.deleteTickerEntry(tickerEntry.id);
+    } on Exception {
+      return -1;
+    }
+  }
+
+  Widget buildDeleteButton(BuildContext context, double width) {
+    return SizedBox(
+      width: width,
+      child: IconButton(
+        padding: const EdgeInsets.all(0),
+        onPressed: () async {
+          final int id = await _deleteTickerEntry();
+          if (id == tickerEntry.id) {
+            ScaffoldMessenger.of(context).showSnackBar(GlobalSnackBar(
+                text: 'Löschung erfolgreich', successfull: true));
+            refreshTicker(context);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(GlobalSnackBar(
+                text: 'Löschung fehlgeschlagen', successfull: false));
+          }
+        },
+        icon: const Icon(
+          Icons.clear,
+          color: Colors.red,
+        ),
+      ),
+    );
   }
 }

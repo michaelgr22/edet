@@ -149,6 +149,7 @@ class _LiveTickerState extends State<LiveTicker> {
         .map((tickerEntry) => Column(
               children: [
                 LiveTickerRow(
+                  refreshTicker: widget.refreshTicker,
                   tickerEntry: tickerEntry,
                   match: widget.match,
                 ),
