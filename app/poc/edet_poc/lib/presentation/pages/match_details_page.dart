@@ -40,7 +40,7 @@ class MatchDetailsPage extends StatelessWidget {
             ..getTicker(match.id),
           child: BlocBuilder<TickerCubit, TickerState>(
             builder: (context, state) {
-              return stateManager(state);
+              return stateManager(context, state);
             },
           ),
         ),
@@ -48,11 +48,12 @@ class MatchDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget stateManager(TickerState state) {
+  Widget stateManager(BuildContext context, TickerState state) {
     if (state is TickerStateInitial || state is TickerStateLoading) {
       return Text("Loading");
     } else if (state is TickerStateLoaded) {
       return MatchDetailsPageLoaded(
+        refreshTicker: _refreshTicker,
         match: match,
         players: players,
         ticker: state.tickerEntries,
@@ -66,5 +67,9 @@ class MatchDetailsPage extends StatelessWidget {
     } else {
       throw UndefinedStateException();
     }
+  }
+
+  Future<void> _refreshTicker(BuildContext context) async {
+    context.read<TickerCubit>().getTicker(match.id);
   }
 }

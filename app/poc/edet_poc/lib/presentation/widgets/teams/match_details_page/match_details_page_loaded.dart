@@ -11,6 +11,7 @@ import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
 
 class MatchDetailsPageLoaded extends StatelessWidget {
+  final Future<void> Function(BuildContext context) refreshTicker;
   final MatchModel match;
   final List<TickerModel> ticker;
   final List<TickerActionModel> actions;
@@ -18,6 +19,7 @@ class MatchDetailsPageLoaded extends StatelessWidget {
 
   const MatchDetailsPageLoaded({
     Key? key,
+    required this.refreshTicker,
     required this.match,
     required this.ticker,
     required this.actions,
@@ -28,15 +30,19 @@ class MatchDetailsPageLoaded extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: greyBackgroundColor,
-      child: ListView(children: [
-        buildMatchResultContainer(),
-        LiveTicker(
-          ticker: ticker,
-          match: match,
-          actions: actions,
-          players: players,
-        ),
-      ]),
+      child: RefreshIndicator(
+        onRefresh: () => refreshTicker(context),
+        child: ListView(children: [
+          buildMatchResultContainer(),
+          LiveTicker(
+            refreshTicker: refreshTicker,
+            ticker: ticker,
+            match: match,
+            actions: actions,
+            players: players,
+          ),
+        ]),
+      ),
     );
   }
 
@@ -82,6 +88,7 @@ class MatchDetailsHeadline extends StatelessWidget {
 }
 
 class LiveTicker extends StatefulWidget {
+  final Future<void> Function(BuildContext context) refreshTicker;
   final List<TickerModel> ticker;
   final MatchModel match;
   final List<TickerActionModel> actions;
@@ -89,6 +96,7 @@ class LiveTicker extends StatefulWidget {
 
   LiveTicker({
     Key? key,
+    required this.refreshTicker,
     required this.ticker,
     required this.match,
     required this.actions,
@@ -122,6 +130,7 @@ class _LiveTickerState extends State<LiveTicker> {
             ),
             LiveTickerAddEntry(
               notifyParent: _showAddFields,
+              refreshTicker: widget.refreshTicker,
               actions: widget.actions,
               players: widget.players,
               match: widget.match,

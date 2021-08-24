@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class LiveTickerAddEntry extends StatefulWidget {
   final Function notifyParent;
+  final Future<void> Function(BuildContext context) refreshTicker;
   final List<TickerActionModel> actions;
   final List<PlayerModel> players;
   final MatchModel match;
@@ -21,6 +22,7 @@ class LiveTickerAddEntry extends StatefulWidget {
   LiveTickerAddEntry({
     Key? key,
     required this.notifyParent,
+    required this.refreshTicker,
     required this.actions,
     required this.players,
     required this.match,
@@ -361,6 +363,7 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
         if (id != -1) {
           ScaffoldMessenger.of(context).showSnackBar(
               GlobalSnackBar(text: 'Eintrag erfolgreich', successfull: true));
+          widget.refreshTicker(context);
           widget.notifyParent(false);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(GlobalSnackBar(
