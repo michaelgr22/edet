@@ -22,7 +22,8 @@ class LiveTickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    const minuteAndImageWidth = 30.0;
+    const minuteWidth = 40.0;
+    const imageWidth = 30.0;
     const minuteAndImagePadding = 12.0;
     const textPadding = 20.0;
     const iconPadding = 15.0;
@@ -34,7 +35,7 @@ class LiveTickerRow extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: minuteAndImagePadding),
                 child: SizedBox(
-                  width: minuteAndImageWidth,
+                  width: minuteWidth,
                   child: Text(
                     "${tickerEntry.minute}'",
                     style: const TextStyle(
@@ -47,7 +48,7 @@ class LiveTickerRow extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: minuteAndImagePadding),
                 child: SizedBox(
-                  width: minuteAndImageWidth,
+                  width: imageWidth,
                   child: Image.asset(
                     properties['icon_path'].toString(),
                     scale: 15.0,
@@ -58,7 +59,8 @@ class LiveTickerRow extends StatelessWidget {
                 padding: const EdgeInsets.only(left: textPadding),
                 child: SizedBox(
                   width: screenSize.width -
-                      minuteAndImageWidth * 2 -
+                      minuteWidth -
+                      imageWidth -
                       minuteAndImagePadding * 2 -
                       textPadding -
                       iconPadding * 2 -
