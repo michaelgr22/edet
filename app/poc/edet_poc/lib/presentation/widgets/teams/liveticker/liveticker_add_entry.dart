@@ -110,6 +110,7 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
       child: TextFormField(
         controller: _minuteFieldController,
         cursorColor: blackBackgroundColor,
+        autofocus: true,
         decoration: const InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: blackBackgroundColor),
@@ -146,6 +147,8 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
     return SizedBox(
       width: inputFieldWidth,
       child: DropdownButton(
+        onTap: () => FocusScope.of(context).unfocus(),
+        autofocus: true,
         isExpanded: true,
         style: const TextStyle(color: Colors.black),
         items: items,
@@ -178,6 +181,7 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
     return SizedBox(
       width: inputFieldWidth,
       child: DropdownButton(
+        onTap: () => FocusScope.of(context).unfocus(),
         style: const TextStyle(color: Colors.black),
         isExpanded: true,
         items: items,

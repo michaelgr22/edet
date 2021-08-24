@@ -24,22 +24,25 @@ class MatchDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(submenuAppBarSize),
-        child: GlobalAppBar(
-          tabs: _tabs,
-          showTabBar: false,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(submenuAppBarSize),
+          child: GlobalAppBar(
+            tabs: _tabs,
+            showTabBar: false,
+          ),
         ),
-      ),
-      body: BlocProvider(
-        create: (_) => TickerCubit(
-            TickerRepository(remoteDataSource: tickerRemoteDataSource))
-          ..getTicker(match.id),
-        child: BlocBuilder<TickerCubit, TickerState>(
-          builder: (context, state) {
-            return stateManager(state);
-          },
+        body: BlocProvider(
+          create: (_) => TickerCubit(
+              TickerRepository(remoteDataSource: tickerRemoteDataSource))
+            ..getTicker(match.id),
+          child: BlocBuilder<TickerCubit, TickerState>(
+            builder: (context, state) {
+              return stateManager(state);
+            },
+          ),
         ),
       ),
     );
