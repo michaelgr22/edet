@@ -7,6 +7,7 @@ import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/repositories/ticker_repository.dart';
 import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
 import 'package:edet_poc/presentation/widgets/teams/match_details_page/match_details_page_loaded.dart';
+import 'package:edet_poc/presentation/widgets/teams/match_details_page/match_details_page_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +51,7 @@ class MatchDetailsPage extends StatelessWidget {
 
   Widget stateManager(BuildContext context, TickerState state) {
     if (state is TickerStateInitial || state is TickerStateLoading) {
-      return Text("Loading");
+      return const MatchDetailsPageLoading();
     } else if (state is TickerStateLoaded) {
       return MatchDetailsPageLoaded(
         refreshTicker: _refreshTicker,
