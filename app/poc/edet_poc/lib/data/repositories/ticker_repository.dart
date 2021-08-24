@@ -1,4 +1,5 @@
 import 'package:edet_poc/data/datasources/ticker_remote_datasource.dart';
+import 'package:edet_poc/data/models/ticker_action_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
 
 class TickerRepository {
@@ -10,6 +11,10 @@ class TickerRepository {
 
   Future<List<TickerModel>> getTicker(int matchId) {
     return remoteDataSource.getTicker(matchId);
+  }
+
+  Future<List<TickerActionModel>> getTickerActions() {
+    return remoteDataSource.getTickerActions();
   }
 
   Future<int> addTickerEntry(TickerModel tickerEntry) {

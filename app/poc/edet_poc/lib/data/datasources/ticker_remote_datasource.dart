@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:edet_poc/data/models/ticker_action_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:edet_poc/data/models/ticker_model.dart';
@@ -6,6 +7,7 @@ import 'package:edet_poc/data/datasources/http_functions.dart';
 
 abstract class TickerRemoteDataSource {
   Future<List<TickerModel>> getTicker(int matchId);
+  Future<List<TickerActionModel>> getTickerActions();
   Future<int> addTickerEntry(TickerModel tickerEntry);
   Future<int> deleteTickerEntry(int tickerId);
 }
@@ -24,6 +26,18 @@ class TickerRemoteDataSourceImpl implements TickerRemoteDataSource {
         await sendGetRequest(_authority, _unencodedPath, _parameters);
     List<dynamic> tickerEntries = json.decode(response.body);
     return tickerEntries.map((entry) => TickerModel.fromJson(entry)).toList();
+  }
+
+  @override
+  Future<List<TickerActionModel>> getTickerActions() async {
+    _unencodedPath = '/dev/ticker/actions';
+
+    final http.Response response =
+        await sendGetRequest(_authority, _unencodedPath, _parameters);
+    List<dynamic> tickerActions = json.decode(response.body);
+    return tickerActions
+        .map((action) => TickerActionModel.fromJson(action))
+        .toList();
   }
 
   @override

@@ -1,7 +1,11 @@
 import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/match_model.dart';
+import 'package:edet_poc/data/models/player_model.dart';
+import 'package:edet_poc/data/models/ticker_action_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
-import 'package:edet_poc/presentation/widgets/teams/liveticker_row.dart';
+import 'package:edet_poc/presentation/widgets/teams/liveticker/liveticker_add_entry.dart';
+import 'package:edet_poc/presentation/widgets/teams/liveticker/liveticker_elevated_button.dart';
+import 'package:edet_poc/presentation/widgets/teams/liveticker/liveticker_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/match_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +13,15 @@ import 'package:flutter/material.dart';
 class MatchDetailsPageLoaded extends StatelessWidget {
   final MatchModel match;
   final List<TickerModel> ticker;
+  final List<TickerActionModel> actions;
+  final List<PlayerModel> players;
 
   const MatchDetailsPageLoaded({
     Key? key,
     required this.match,
     required this.ticker,
+    required this.actions,
+    required this.players,
   }) : super(key: key);
 
   @override
@@ -25,6 +33,8 @@ class MatchDetailsPageLoaded extends StatelessWidget {
         LiveTicker(
           ticker: ticker,
           match: match,
+          actions: actions,
+          players: players,
         ),
       ]),
     );
@@ -71,15 +81,32 @@ class MatchDetailsHeadline extends StatelessWidget {
   }
 }
 
-class LiveTicker extends StatelessWidget {
+class LiveTicker extends StatefulWidget {
   final List<TickerModel> ticker;
   final MatchModel match;
+  final List<TickerActionModel> actions;
+  final List<PlayerModel> players;
 
-  const LiveTicker({
+  LiveTicker({
     Key? key,
     required this.ticker,
     required this.match,
+    required this.actions,
+    required this.players,
   }) : super(key: key);
+
+  @override
+  State<LiveTicker> createState() => _LiveTickerState();
+}
+
+class _LiveTickerState extends State<LiveTicker> {
+  bool showAddFields = false;
+
+  void _showAddFields(bool show) {
+    setState(() {
+      showAddFields = show;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +120,14 @@ class LiveTicker extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 20.0),
               child: MatchDetailsHeadline(headline: 'Liveticker'),
             ),
+            LiveTickerAddEntry(
+              notifyParent: _showAddFields,
+              actions: widget.actions,
+              players: widget.players,
+              match: widget.match,
+              isVisible: showAddFields,
+            ),
+            buildAddButton(),
             ...buildTicker()
           ],
         ),
@@ -101,16 +136,29 @@ class LiveTicker extends StatelessWidget {
   }
 
   List<Widget> buildTicker() {
-    return ticker
+    return widget.ticker
         .map((tickerEntry) => Column(
               children: [
                 LiveTickerRow(
                   tickerEntry: tickerEntry,
-                  match: match,
+                  match: widget.match,
                 ),
                 const RowDivider(height: 5.0)
               ],
             ))
         .toList();
+  }
+
+  Widget buildAddButton() {
+    return Visibility(
+      visible: DateTime.now().isAfter(widget.match.dateTime) && !showAddFields,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: LiveTickerElevatedButton(
+          text: 'Eintrag hinzufügen',
+          onPressed: () => _showAddFields(true),
+        ),
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:edet_poc/data/datasources/ticker_remote_datasource.dart';
+import 'package:edet_poc/data/models/ticker_action_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -33,6 +34,15 @@ void main() {
     final tickerEntries = await remoteDataSource.getTicker(matchId);
     //assert
     expect(tickerEntries, isA<List<TickerModel>>());
+  });
+
+  test('should return List of TickerActions when getTickerActions is called',
+      () async {
+    //arrange
+    //act
+    final tickerActions = await remoteDataSource.getTickerActions();
+    //assert
+    expect(tickerActions, isA<List<TickerActionModel>>());
   });
 
   test(

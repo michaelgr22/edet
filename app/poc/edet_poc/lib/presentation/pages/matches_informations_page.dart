@@ -1,6 +1,7 @@
 import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
+import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_headline.dart';
@@ -11,11 +12,13 @@ class MatchesInformationsPage extends StatelessWidget {
   final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();
   final LeagueModel league;
   final List<MatchModel> teamMatches;
+  final List<PlayerModel> players;
 
   MatchesInformationsPage({
     Key? key,
     required this.teamMatches,
     required this.league,
+    required this.players,
   }) : super(key: key);
 
   @override
@@ -37,6 +40,7 @@ class MatchesInformationsPage extends StatelessWidget {
           ),
           TeamMatchesContainer(
             teamMatches: teamMatches,
+            players: players,
           ),
         ]),
       ),
@@ -46,10 +50,12 @@ class MatchesInformationsPage extends StatelessWidget {
 
 class TeamMatchesContainer extends StatelessWidget {
   final List<MatchModel> teamMatches;
+  final List<PlayerModel> players;
 
   const TeamMatchesContainer({
     Key? key,
     required this.teamMatches,
+    required this.players,
   }) : super(key: key);
 
   @override
@@ -57,6 +63,7 @@ class TeamMatchesContainer extends StatelessWidget {
     return InformationsPageContainerBoilerplate(
       child: MatchesColumn(
         matches: teamMatches,
+        players: players,
         numberOfRows: teamMatches.length,
         dividerHeight: 3.0,
         rowHeight: null,

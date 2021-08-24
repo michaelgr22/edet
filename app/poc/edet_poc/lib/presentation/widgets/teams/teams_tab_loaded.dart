@@ -34,9 +34,11 @@ class TeamsTabLoaded extends StatelessWidget {
             league: league,
             standings: standings,
             leagueMatches: leagueMatches,
+            players: players,
           ),
           MatchesInformations(
             teamMatches: teamMatches,
+            players: players,
             league: league,
           ),
           StatisticsInformations(

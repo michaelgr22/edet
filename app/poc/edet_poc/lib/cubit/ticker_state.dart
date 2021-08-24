@@ -11,9 +11,11 @@ class TickerStateInitial extends TickerState {
 
 class TickerStateLoaded extends TickerState {
   final List<TickerModel> tickerEntries;
+  final List<TickerActionModel> tickerActions;
 
   const TickerStateLoaded({
     required this.tickerEntries,
+    required this.tickerActions,
   });
 }
 

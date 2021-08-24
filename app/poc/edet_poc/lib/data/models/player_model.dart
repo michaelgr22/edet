@@ -30,4 +30,9 @@ class PlayerModel {
         goals = json['player_goals'],
         position = json['player_position'],
         imagelink = json['player_imagelink'];
+
+  @override
+  String toString() {
+    return '$firstname $lastname';
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:edet_poc/core/extensions.dart';
 import 'package:edet_poc/data/models/match_model.dart';
+import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/presentation/pages/match_details_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/match_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
@@ -9,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class MatchesColumn extends StatelessWidget {
   final List<MatchModel> matches;
+  final List<PlayerModel> players;
   final int numberOfRows;
   final double dividerHeight;
   final double? rowHeight;
@@ -19,6 +21,7 @@ class MatchesColumn extends StatelessWidget {
   const MatchesColumn({
     Key? key,
     required this.matches,
+    required this.players,
     required this.numberOfRows,
     required this.dividerHeight,
     required this.rowHeight,
@@ -81,6 +84,7 @@ class MatchesColumn extends StatelessWidget {
       }
       widgets.add(MatchContainer(
         match: matches[i],
+        players: players,
         rowHeight: rowHeight,
         dividerHeight: dividerHeight,
         isResultColor: isResultColor,
@@ -94,6 +98,7 @@ class MatchesColumn extends StatelessWidget {
 
 class MatchContainer extends StatefulWidget {
   final MatchModel match;
+  final List<PlayerModel> players;
   final double? rowHeight;
   final double dividerHeight;
   final bool isResultColor;
@@ -103,6 +108,7 @@ class MatchContainer extends StatefulWidget {
   const MatchContainer({
     Key? key,
     required this.match,
+    required this.players,
     required this.rowHeight,
     required this.dividerHeight,
     required this.isResultColor,
@@ -125,7 +131,10 @@ class _MatchContainerState extends State<MatchContainer> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => MatchDetailsPage(match: widget.match),
+              builder: (_) => MatchDetailsPage(
+                match: widget.match,
+                players: widget.players,
+              ),
             ),
           );
         },
