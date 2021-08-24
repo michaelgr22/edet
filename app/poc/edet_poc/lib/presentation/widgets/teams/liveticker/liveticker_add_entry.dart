@@ -71,7 +71,7 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
                 isVisible: true,
               ),
               LiveTickerAddEntryRow(
-                description: 'Team:',
+                description: chooseTeamDropdownString(),
                 inputField: buildTeamDropdown(),
                 inputFieldWith: inputFieldWidth,
                 screenWidth: screenSize.width,
@@ -275,6 +275,15 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
     return ['', ''];
   }
 
+  String chooseTeamDropdownString() {
+    if (_tickerActionDropdownValue != null) {
+      if (_tickerActionDropdownValue!.id == 2) {
+        return 'Eigentor von:';
+      }
+    }
+    return 'Team:';
+  }
+
   Widget buildCommentField() {
     return SizedBox(
       width: inputFieldWidth,
@@ -321,12 +330,29 @@ class _LiveTickerAddEntryState extends State<LiveTickerAddEntry> {
         : null;
   }
 
+//needed because OwnGoal is inverted
+  Team chooseTeamOnActionId() {
+    if (_tickerActionDropdownValue!.id == 2) {
+      if (widget.match.homeTeamId == _teamDropdownValue!.id) {
+        return Team(
+            id: widget.match.awayTeamId,
+            showname: widget.match.awayTeamShowname);
+      } else {
+        return Team(
+            id: widget.match.homeTeamId,
+            showname: widget.match.homeTeamShowname);
+      }
+    }
+    return Team(
+        id: _teamDropdownValue!.id, showname: _teamDropdownValue!.showname);
+  }
+
   Future<int> sendTickerEntry() async {
     final int minute = int.parse(_minuteFieldController.text);
     final int actionId = _tickerActionDropdownValue!.id;
     final String action = _tickerActionDropdownValue!.actionName;
-    final int teamId = _teamDropdownValue!.id;
-    final String teamShowname = _teamDropdownValue!.showname;
+    final int teamId = chooseTeamOnActionId().id;
+    final String teamShowname = chooseTeamOnActionId().showname;
     final int? player1Id = checkPlayerDropdownValue(_player1DropdownValue);
     final int? player2Id = checkPlayerDropdownValue(_player2DropdownValue);
     final String? comment = _commentFieldController.text;
