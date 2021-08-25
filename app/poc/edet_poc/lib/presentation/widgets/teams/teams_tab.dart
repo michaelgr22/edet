@@ -13,25 +13,29 @@ class TeamsTab extends StatelessWidget {
   final String teamname;
   final String teamclass;
   final String teamseason;
-  FupaRemoteDataSource fupaRemoteDataSource;
-  TickerRemoteDataSource tickerRemoteDataSource = TickerRemoteDataSourceImpl();
 
   TeamsTab({
     Key? key,
     required this.teamname,
     required this.teamclass,
     required this.teamseason,
-  })  : fupaRemoteDataSource = FupaRemoteDataSourceImpl(
-            teamname: teamname, teamclass: teamclass, teamseason: teamseason),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final FupaRemoteDataSource fupaRemoteDataSource = FupaRemoteDataSourceImpl(
+        teamname: teamname, teamclass: teamclass, teamseason: teamseason);
+    final FupaRepository fupaRepository =
+        FupaRepository(remoteDataSource: fupaRemoteDataSource);
+
+    final TickerRemoteDataSource tickerRemoteDataSource =
+        TickerRemoteDataSourceImpl();
+    final TickerRepository tickerRepository =
+        TickerRepository(remoteDataSource: tickerRemoteDataSource);
+
     return BlocProvider(
-      create: (_) => TeamsCubit(
-        FupaRepository(remoteDataSource: fupaRemoteDataSource),
-        TickerRepository(remoteDataSource: tickerRemoteDataSource),
-      )..getTeamInformations(),
+      create: (_) =>
+          TeamsCubit(fupaRepository, tickerRepository)..getTeamInformations(),
       child: BlocBuilder<TeamsCubit, TeamsState>(
         builder: (context, state) {
           return stateManager(state);
