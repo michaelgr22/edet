@@ -2,6 +2,7 @@ import 'package:edet_poc/constants.dart';
 import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/presentation/pages/matches_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -11,11 +12,13 @@ import 'package:flutter/material.dart';
 class MatchesInformations extends StatefulWidget {
   final LeagueModel league;
   final List<MatchModel> teamMatches;
+  final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
 
   MatchesInformations({
     Key? key,
     required this.teamMatches,
+    required this.tickersOfMatches,
     required this.league,
     required this.players,
   }) : super(key: key);
@@ -39,6 +42,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             MaterialPageRoute(
               builder: (_) => MatchesInformationsPage(
                 teamMatches: widget.teamMatches,
+                tickersOfMatches: widget.tickersOfMatches,
                 players: widget.players,
                 league: widget.league,
               ),
@@ -50,6 +54,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             const InformationsHeadline(headline: 'SPIELE'),
             MatchesColumn(
               matches: widget.teamMatches,
+              tickersOfMatches: widget.tickersOfMatches,
               players: widget.players,
               numberOfRows: 3,
               dividerHeight: 5.0,

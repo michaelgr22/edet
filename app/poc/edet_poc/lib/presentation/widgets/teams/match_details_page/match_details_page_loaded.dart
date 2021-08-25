@@ -55,6 +55,7 @@ class MatchDetailsPageLoaded extends StatelessWidget {
           MatchDetailsHeadline(headline: match.leagueShowname),
           MatchRow(
             match: match,
+            ticker: ticker,
             rowHeight: 130.0,
             isResultColor: true,
             middleContainerWidth: 60.0,

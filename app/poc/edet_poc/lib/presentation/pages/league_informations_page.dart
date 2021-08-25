@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_headline.dart';
@@ -15,6 +16,7 @@ class LeagueInformationsPage extends StatelessWidget {
   final LeagueModel league;
   final List<StandingsRowModel> standings;
   final List<MatchModel> leagueMatches;
+  final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
 
   LeagueInformationsPage({
@@ -22,6 +24,7 @@ class LeagueInformationsPage extends StatelessWidget {
     required this.league,
     required this.standings,
     required this.leagueMatches,
+    required this.tickersOfMatches,
     required this.players,
   }) : super(key: key);
 
@@ -46,6 +49,7 @@ class LeagueInformationsPage extends StatelessWidget {
             StandingsContainer(standings: standings),
             MatchesContainer(
               leagueMatches: leagueMatches,
+              tickersOfMatches: tickersOfMatches,
               players: players,
             )
           ],
@@ -79,11 +83,13 @@ class StandingsContainer extends StatelessWidget {
 
 class MatchesContainer extends StatelessWidget {
   final List<MatchModel> leagueMatches;
+  final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
 
   const MatchesContainer({
     Key? key,
     required this.leagueMatches,
+    required this.tickersOfMatches,
     required this.players,
   }) : super(key: key);
 
@@ -92,6 +98,7 @@ class MatchesContainer extends StatelessWidget {
     return InformationsPageContainerBoilerplate(
       child: MatchesColumn(
         matches: leagueMatches,
+        tickersOfMatches: tickersOfMatches,
         players: players,
         numberOfRows: leagueMatches.length,
         dividerHeight: 3.0,

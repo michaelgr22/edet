@@ -1,9 +1,11 @@
 import 'package:edet_poc/data/models/match_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MatchRow extends StatelessWidget {
   final MatchModel match;
+  final List<TickerModel> ticker;
   final double? rowHeight;
   final bool isResultColor;
   final double middleContainerWidth;
@@ -13,6 +15,7 @@ class MatchRow extends StatelessWidget {
   const MatchRow({
     Key? key,
     required this.match,
+    required this.ticker,
     required this.rowHeight,
     required this.isResultColor,
     this.middleContainerWidth = 60.0,
@@ -138,10 +141,40 @@ class MatchRow extends StatelessWidget {
     return const Color(0xFFDCDCDC);
   }
 
+  bool showTickerResult(MatchModel match) {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+
+    if (now.isAfter(match.dateTime) &&
+        today ==
+            DateTime(match.dateTime.year, match.dateTime.month,
+                match.dateTime.day) &&
+        ticker.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  int countTickerGoalsOfTeam(int teamId) {
+    return ticker
+        .where((tickerEntry) =>
+            tickerEntry.teamId == teamId &&
+            (tickerEntry.actionId == 1 || tickerEntry.actionId == 2))
+        .length;
+  }
+
   Widget buildResult(MatchModel match) {
+    int homeGoals = match.homeGoals;
+    int awayGoals = match.awayGoals;
+
+    if (showTickerResult(match)) {
+      homeGoals = countTickerGoalsOfTeam(match.homeTeamId);
+      awayGoals = countTickerGoalsOfTeam(match.awayTeamId);
+    }
+
     String formattedTime = DateFormat('kk:mm').format(match.dateTime);
-    return match.homeGoals != -1 && match.awayGoals != -1
-        ? buildResultText("${match.homeGoals}:${match.awayGoals}")
+    return homeGoals != -1 && awayGoals != -1
+        ? buildResultText("$homeGoals:$awayGoals")
         : !match.cancelled
             ? buildResultText(formattedTime)
             : buildResultText("abg");

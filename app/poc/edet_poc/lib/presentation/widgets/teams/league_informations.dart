@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/presentation/pages/league_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -13,6 +14,7 @@ class LeagueInformations extends StatefulWidget {
   final LeagueModel league;
   final List<StandingsRowModel> standings;
   final List<MatchModel> leagueMatches;
+  final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
 
   const LeagueInformations({
@@ -20,6 +22,7 @@ class LeagueInformations extends StatefulWidget {
     required this.league,
     required this.standings,
     required this.leagueMatches,
+    required this.tickersOfMatches,
     required this.players,
   }) : super(key: key);
 
@@ -44,6 +47,7 @@ class _LeagueInformationsState extends State<LeagueInformations> {
                 league: widget.league,
                 standings: widget.standings,
                 leagueMatches: widget.leagueMatches,
+                tickersOfMatches: widget.tickersOfMatches,
                 players: widget.players,
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/presentation/widgets/teams/league_informations.dart';
 import 'package:edet_poc/presentation/widgets/teams/matches_informations.dart';
 import 'package:edet_poc/presentation/widgets/teams/statistics_informations.dart';
@@ -12,6 +13,7 @@ class TeamsTabLoaded extends StatelessWidget {
   final LeagueModel league;
   final List<MatchModel> teamMatches;
   final List<MatchModel> leagueMatches;
+  final List<TickerModel> tickersOfMatches;
   final List<StandingsRowModel> standings;
   final List<PlayerModel> players;
 
@@ -20,6 +22,7 @@ class TeamsTabLoaded extends StatelessWidget {
     required this.league,
     required this.teamMatches,
     required this.leagueMatches,
+    required this.tickersOfMatches,
     required this.standings,
     required this.players,
   }) : super(key: key);
@@ -34,10 +37,12 @@ class TeamsTabLoaded extends StatelessWidget {
             league: league,
             standings: standings,
             leagueMatches: leagueMatches,
+            tickersOfMatches: tickersOfMatches,
             players: players,
           ),
           MatchesInformations(
             teamMatches: teamMatches,
+            tickersOfMatches: tickersOfMatches,
             players: players,
             league: league,
           ),

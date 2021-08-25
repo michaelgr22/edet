@@ -15,6 +15,7 @@ class TeamsStateLoaded extends TeamsState {
   final List<MatchModel> leagueMatches;
   final List<StandingsRowModel> standings;
   final List<PlayerModel> players;
+  final List<TickerModel> tickersToday;
 
   const TeamsStateLoaded({
     required this.league,
@@ -22,6 +23,7 @@ class TeamsStateLoaded extends TeamsState {
     required this.leagueMatches,
     required this.standings,
     required this.players,
+    required this.tickersToday,
   });
 }
 

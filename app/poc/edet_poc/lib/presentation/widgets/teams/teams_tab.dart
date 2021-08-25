@@ -1,7 +1,9 @@
 import 'package:edet_poc/core/errors/exceptions.dart';
 import 'package:edet_poc/cubit/teams_cubit.dart';
 import 'package:edet_poc/data/datasources/fupa_remote_datasource.dart';
+import 'package:edet_poc/data/datasources/ticker_remote_datasource.dart';
 import 'package:edet_poc/data/repositories/fupa_repository.dart';
+import 'package:edet_poc/data/repositories/ticker_repository.dart';
 import 'package:edet_poc/presentation/widgets/teams/teams_tab_loaded.dart';
 import 'package:edet_poc/presentation/widgets/teams/teams_tab_loading.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class TeamsTab extends StatelessWidget {
   final String teamclass;
   final String teamseason;
   FupaRemoteDataSource fupaRemoteDataSource;
+  TickerRemoteDataSource tickerRemoteDataSource = TickerRemoteDataSourceImpl();
 
   TeamsTab({
     Key? key,
@@ -25,9 +28,10 @@ class TeamsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          TeamsCubit(FupaRepository(remoteDataSource: fupaRemoteDataSource))
-            ..getTeamInformations(),
+      create: (_) => TeamsCubit(
+        FupaRepository(remoteDataSource: fupaRemoteDataSource),
+        TickerRepository(remoteDataSource: tickerRemoteDataSource),
+      )..getTeamInformations(),
       child: BlocBuilder<TeamsCubit, TeamsState>(
         builder: (context, state) {
           return stateManager(state);
@@ -44,6 +48,7 @@ class TeamsTab extends StatelessWidget {
         league: state.league,
         teamMatches: state.teamMatches,
         leagueMatches: state.leagueMatches,
+        tickersOfMatches: state.tickersToday,
         standings: state.standings,
         players: state.players,
       );

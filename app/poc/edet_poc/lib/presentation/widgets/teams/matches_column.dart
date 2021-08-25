@@ -1,6 +1,7 @@
 import 'package:edet_poc/core/extensions.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
+import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/presentation/pages/match_details_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/match_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
@@ -10,6 +11,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class MatchesColumn extends StatelessWidget {
   final List<MatchModel> matches;
+  final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
   final int numberOfRows;
   final double dividerHeight;
@@ -21,6 +23,7 @@ class MatchesColumn extends StatelessWidget {
   const MatchesColumn({
     Key? key,
     required this.matches,
+    required this.tickersOfMatches,
     required this.players,
     required this.numberOfRows,
     required this.dividerHeight,
@@ -82,15 +85,23 @@ class MatchesColumn extends StatelessWidget {
         widgets.add(DateDivider(dateTime: matches[i].dateTime));
         isfirst = false;
       }
-      widgets.add(MatchContainer(
-        match: matches[i],
-        players: players,
-        rowHeight: rowHeight,
-        dividerHeight: dividerHeight,
-        isResultColor: isResultColor,
-        showLeague: showLeague,
-        isPreview: isPreview,
-      ));
+
+      List<TickerModel> tickerOfMatch = tickersOfMatches
+          .where((tickerEntry) => tickerEntry.matchId == matches[i].id)
+          .toList();
+
+      widgets.add(
+        MatchContainer(
+          match: matches[i],
+          ticker: tickerOfMatch,
+          players: players,
+          rowHeight: rowHeight,
+          dividerHeight: dividerHeight,
+          isResultColor: isResultColor,
+          showLeague: showLeague,
+          isPreview: isPreview,
+        ),
+      );
     }
     return widgets;
   }
@@ -98,6 +109,7 @@ class MatchesColumn extends StatelessWidget {
 
 class MatchContainer extends StatefulWidget {
   final MatchModel match;
+  final List<TickerModel> ticker;
   final List<PlayerModel> players;
   final double? rowHeight;
   final double dividerHeight;
@@ -108,6 +120,7 @@ class MatchContainer extends StatefulWidget {
   const MatchContainer({
     Key? key,
     required this.match,
+    required this.ticker,
     required this.players,
     required this.rowHeight,
     required this.dividerHeight,
@@ -154,6 +167,7 @@ class _MatchContainerState extends State<MatchContainer> {
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: MatchRow(
             match: widget.match,
+            ticker: widget.ticker,
             rowHeight: widget.rowHeight,
             isResultColor: widget.isResultColor,
           ),
