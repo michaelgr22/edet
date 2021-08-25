@@ -45,6 +45,7 @@ class TeamsTab extends StatelessWidget {
       return const TeamsTabLoading();
     } else if (state is TeamsStateLoaded) {
       return TeamsTabLoaded(
+        refreshTeamsInformations: _refreshTeamsInformations,
         league: state.league,
         teamMatches: state.teamMatches,
         leagueMatches: state.leagueMatches,
@@ -60,5 +61,9 @@ class TeamsTab extends StatelessWidget {
     } else {
       throw UndefinedStateException();
     }
+  }
+
+  Future<void> _refreshTeamsInformations(BuildContext context) async {
+    context.read<TeamsCubit>().getTeamInformations();
   }
 }

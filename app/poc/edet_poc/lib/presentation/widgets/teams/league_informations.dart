@@ -11,6 +11,7 @@ import 'package:edet_poc/presentation/widgets/teams/standings_table.dart';
 import 'package:flutter/material.dart';
 
 class LeagueInformations extends StatefulWidget {
+  final Future<void> Function(BuildContext context) refreshTeamsInformations;
   final LeagueModel league;
   final List<StandingsRowModel> standings;
   final List<MatchModel> leagueMatches;
@@ -19,6 +20,7 @@ class LeagueInformations extends StatefulWidget {
 
   const LeagueInformations({
     Key? key,
+    required this.refreshTeamsInformations,
     required this.league,
     required this.standings,
     required this.leagueMatches,
@@ -51,7 +53,7 @@ class _LeagueInformationsState extends State<LeagueInformations> {
                 players: widget.players,
               ),
             ),
-          );
+          ).then((value) => widget.refreshTeamsInformations(context));
         },
         child: InformationsContainerBoilerplate(
           children: [

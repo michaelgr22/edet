@@ -10,6 +10,7 @@ import 'package:edet_poc/presentation/widgets/teams/statistics_informations.dart
 import 'package:flutter/material.dart';
 
 class TeamsTabLoaded extends StatelessWidget {
+  final Future<void> Function(BuildContext context) refreshTeamsInformations;
   final LeagueModel league;
   final List<MatchModel> teamMatches;
   final List<MatchModel> leagueMatches;
@@ -19,6 +20,7 @@ class TeamsTabLoaded extends StatelessWidget {
 
   const TeamsTabLoaded({
     Key? key,
+    required this.refreshTeamsInformations,
     required this.league,
     required this.teamMatches,
     required this.leagueMatches,
@@ -34,6 +36,7 @@ class TeamsTabLoaded extends StatelessWidget {
       child: ListView(
         children: [
           LeagueInformations(
+            refreshTeamsInformations: refreshTeamsInformations,
             league: league,
             standings: standings,
             leagueMatches: leagueMatches,
@@ -41,6 +44,7 @@ class TeamsTabLoaded extends StatelessWidget {
             players: players,
           ),
           MatchesInformations(
+            refreshTeamsInformations: refreshTeamsInformations,
             teamMatches: teamMatches,
             tickersOfMatches: tickersOfMatches,
             players: players,

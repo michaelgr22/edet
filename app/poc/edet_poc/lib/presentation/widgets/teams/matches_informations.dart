@@ -10,6 +10,7 @@ import 'package:edet_poc/presentation/widgets/teams/matches_column.dart';
 import 'package:flutter/material.dart';
 
 class MatchesInformations extends StatefulWidget {
+  final Future<void> Function(BuildContext context) refreshTeamsInformations;
   final LeagueModel league;
   final List<MatchModel> teamMatches;
   final List<TickerModel> tickersOfMatches;
@@ -17,6 +18,7 @@ class MatchesInformations extends StatefulWidget {
 
   MatchesInformations({
     Key? key,
+    required this.refreshTeamsInformations,
     required this.teamMatches,
     required this.tickersOfMatches,
     required this.league,
@@ -47,7 +49,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
                 league: widget.league,
               ),
             ),
-          );
+          ).then((value) => widget.refreshTeamsInformations(context));
         },
         child: InformationsContainerBoilerplate(
           children: [
