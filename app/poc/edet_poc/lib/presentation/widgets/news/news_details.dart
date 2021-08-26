@@ -10,6 +10,7 @@ class NewsDetails extends StatelessWidget {
   final NewsModel newsItem;
 
   NewsDetails({required this.newsItem});
+
   @override
   Widget build(BuildContext context) {
     return ListView(

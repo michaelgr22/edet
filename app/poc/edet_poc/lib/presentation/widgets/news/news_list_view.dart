@@ -64,16 +64,33 @@ class NewsListViewCard extends StatelessWidget {
 
 class NewsListViewCardImage extends StatelessWidget {
   final String imagelink;
+  static const double width = 100.0;
+  static const double height = 80.0;
+  static const String placeholderImagePath =
+      'assets/images/news_placeholder_image.png';
+
   NewsListViewCardImage({required this.imagelink});
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
-      child: Image.network(
-        imagelink,
-        width: 100,
-        height: 80,
-      ),
+      child: buildImage(),
+    );
+  }
+
+  Widget buildImage() {
+    Widget errorImage = Image.asset(
+      placeholderImagePath,
+      width: width,
+      height: height,
+    );
+
+    return Image.network(
+      imagelink,
+      width: width,
+      height: height,
+      errorBuilder: (context, error, stacktrace) => errorImage,
     );
   }
 }
