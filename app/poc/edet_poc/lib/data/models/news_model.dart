@@ -3,7 +3,7 @@ class NewsModel {
   final String headline;
   final DateTime date;
   final String category;
-  final String imagelink;
+  final String? imagelink;
   final String content;
 
   NewsModel({

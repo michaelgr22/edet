@@ -63,7 +63,7 @@ class NewsListViewCard extends StatelessWidget {
 }
 
 class NewsListViewCardImage extends StatelessWidget {
-  final String imagelink;
+  final String? imagelink;
   static const double width = 100.0;
   static const double height = 80.0;
   static const String placeholderImagePath =
@@ -86,12 +86,16 @@ class NewsListViewCardImage extends StatelessWidget {
       height: height,
     );
 
-    return Image.network(
-      imagelink,
-      width: width,
-      height: height,
-      errorBuilder: (context, error, stacktrace) => errorImage,
-    );
+    if (imagelink != null) {
+      return Image.network(
+        imagelink!,
+        width: width,
+        height: height,
+        errorBuilder: (context, error, stacktrace) => errorImage,
+      );
+    } else {
+      return errorImage;
+    }
   }
 }
 

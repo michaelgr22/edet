@@ -67,7 +67,8 @@ class NewsDetailsDate extends StatelessWidget {
 }
 
 class NewsDetailsImage extends StatefulWidget {
-  final String imagelink;
+  final String? imagelink;
+
   NewsDetailsImage({Key? key, required this.imagelink}) : super(key: key);
 
   @override
@@ -77,26 +78,41 @@ class NewsDetailsImage extends StatefulWidget {
 class _NewsDetailsImageState extends State<NewsDetailsImage> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => NewsDetailsImagePage(
-              imagelink: widget.imagelink,
+    if (widget.imagelink != null) {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => NewsDetailsImagePage(
+                imagelink: widget.imagelink!,
+              ),
+            ),
+          );
+        },
+        child: Hero(
+          tag: widget.imagelink!,
+          child: SizedBox(
+            width: double.infinity,
+            height: 200.0,
+            child: Image.network(
+              widget.imagelink!,
+              errorBuilder: (context, error, stacktrace) {
+                return const SizedBox(
+                  width: 1.0,
+                  height: 1.0,
+                );
+              },
             ),
           ),
-        );
-      },
-      child: Hero(
-        tag: widget.imagelink,
-        child: SizedBox(
-          width: double.infinity,
-          height: 200.0,
-          child: Image.network(widget.imagelink),
         ),
-      ),
-    );
+      );
+    } else {
+      return const SizedBox(
+        width: 0.0,
+        height: 0.0,
+      );
+    }
   }
 }
 
