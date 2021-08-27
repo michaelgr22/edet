@@ -38,18 +38,19 @@ class TeamsTab extends StatelessWidget {
           TeamsCubit(fupaRepository, tickerRepository)..getTeamInformations(),
       child: BlocBuilder<TeamsCubit, TeamsState>(
         builder: (context, state) {
-          return stateManager(state);
+          return stateManager(state, tickerRepository);
         },
       ),
     );
   }
 
-  Widget stateManager(TeamsState state) {
+  Widget stateManager(TeamsState state, TickerRepository tickerRepository) {
     if (state is TeamsStateInitial || state is TeamsStateLoading) {
       return const TeamsTabLoading();
     } else if (state is TeamsStateLoaded) {
       return TeamsTabLoaded(
         refreshTeamsInformations: _refreshTeamsInformations,
+        tickerRepository: tickerRepository,
         league: state.league,
         teamMatches: state.teamMatches,
         leagueMatches: state.leagueMatches,

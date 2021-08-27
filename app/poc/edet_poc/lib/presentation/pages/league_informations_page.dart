@@ -97,6 +97,8 @@ class MatchesContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InformationsPageContainerBoilerplate(
       child: MatchesColumn(
+        refreshTicker: null,
+        scrollMatchPageToTop: null,
         matches: leagueMatches,
         tickersOfMatches: tickersOfMatches,
         players: players,

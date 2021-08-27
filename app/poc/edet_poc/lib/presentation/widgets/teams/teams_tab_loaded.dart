@@ -4,6 +4,7 @@ import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
+import 'package:edet_poc/data/repositories/ticker_repository.dart';
 import 'package:edet_poc/presentation/widgets/teams/league_informations.dart';
 import 'package:edet_poc/presentation/widgets/teams/matches_informations.dart';
 import 'package:edet_poc/presentation/widgets/teams/statistics_informations.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class TeamsTabLoaded extends StatelessWidget {
   final Future<void> Function(BuildContext context) refreshTeamsInformations;
+  final TickerRepository tickerRepository;
   final LeagueModel league;
   final List<MatchModel> teamMatches;
   final List<MatchModel> leagueMatches;
@@ -21,6 +23,7 @@ class TeamsTabLoaded extends StatelessWidget {
   const TeamsTabLoaded({
     Key? key,
     required this.refreshTeamsInformations,
+    required this.tickerRepository,
     required this.league,
     required this.teamMatches,
     required this.leagueMatches,
@@ -45,6 +48,7 @@ class TeamsTabLoaded extends StatelessWidget {
           ),
           MatchesInformations(
             refreshTeamsInformations: refreshTeamsInformations,
+            tickerRepository: tickerRepository,
             teamMatches: teamMatches,
             tickersOfMatches: tickersOfMatches,
             players: players,

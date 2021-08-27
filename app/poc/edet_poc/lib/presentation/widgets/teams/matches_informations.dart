@@ -3,6 +3,7 @@ import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
+import 'package:edet_poc/data/repositories/ticker_repository.dart';
 import 'package:edet_poc/presentation/pages/matches_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class MatchesInformations extends StatefulWidget {
   final Future<void> Function(BuildContext context) refreshTeamsInformations;
+  final TickerRepository tickerRepository;
   final LeagueModel league;
   final List<MatchModel> teamMatches;
   final List<TickerModel> tickersOfMatches;
@@ -19,6 +21,7 @@ class MatchesInformations extends StatefulWidget {
   MatchesInformations({
     Key? key,
     required this.refreshTeamsInformations,
+    required this.tickerRepository,
     required this.teamMatches,
     required this.tickersOfMatches,
     required this.league,
@@ -43,6 +46,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             context,
             MaterialPageRoute(
               builder: (_) => MatchesInformationsPage(
+                tickerRepository: widget.tickerRepository,
                 teamMatches: widget.teamMatches,
                 tickersOfMatches: widget.tickersOfMatches,
                 players: widget.players,
@@ -55,6 +59,8 @@ class _MatchesInformationsState extends State<MatchesInformations> {
           children: [
             const InformationsHeadline(headline: 'SPIELE'),
             MatchesColumn(
+              refreshTicker: null,
+              scrollMatchPageToTop: null,
               matches: widget.teamMatches,
               tickersOfMatches: widget.tickersOfMatches,
               players: widget.players,

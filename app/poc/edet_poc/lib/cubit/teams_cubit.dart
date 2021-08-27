@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:edet_poc/core/errors/exceptions.dart';
+import 'package:edet_poc/core/helpers/matches_helper.dart';
 import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
@@ -33,7 +34,7 @@ class TeamsCubit extends Cubit<TeamsState> {
       final List<PlayerModel> players = await _fupaRepository.getPlayers();
 
       List<MatchModel> matchesOnThisDay =
-          findMatchesOnThisDay(leagueMatches + teamMatches);
+          MatchesHelper.findMatchesOnThisDay(leagueMatches + teamMatches);
       List<TickerModel> tickersToday = [];
 
       for (var match in matchesOnThisDay) {
@@ -53,17 +54,5 @@ class TeamsCubit extends Cubit<TeamsState> {
     } on NetworkException {
       emit(const TeamsStateError("Couldn't fetch data. Device online?"));
     }
-  }
-
-  List<MatchModel> findMatchesOnThisDay(List<MatchModel> matches) {
-    final DateTime now = DateTime.now();
-    final DateTime today = DateTime(now.year, now.month, now.day);
-
-    return matches
-        .where((match) =>
-            today ==
-            DateTime(
-                match.dateTime.year, match.dateTime.month, match.dateTime.day))
-        .toList();
   }
 }

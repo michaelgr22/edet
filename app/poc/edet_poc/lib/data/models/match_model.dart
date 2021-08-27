@@ -45,4 +45,21 @@ class MatchModel {
         leagueShowname = json['match_league_showname'] != 'Testspiele'
             ? json['match_league_showname']
             : 'Testspiel';
+
+  bool isLivetickerTime() {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+
+    if (now.isAfter(dateTime) &&
+        today == DateTime(dateTime.year, dateTime.month, dateTime.day)) {
+      return true;
+    }
+    return false;
+  }
+
+  static MatchModel? findLiveMatch(List<MatchModel> matches) {
+    List<MatchModel> liveMatches =
+        matches.where((match) => match.isLivetickerTime()).toList();
+    return liveMatches.isNotEmpty ? liveMatches.first : null;
+  }
 }

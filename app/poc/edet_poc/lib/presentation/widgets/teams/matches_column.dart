@@ -10,6 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class MatchesColumn extends StatelessWidget {
+  final Future<void> Function(BuildContext context, MatchModel? match)?
+      refreshTicker;
+  final Function()? scrollMatchPageToTop;
   final List<MatchModel> matches;
   final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
@@ -22,6 +25,8 @@ class MatchesColumn extends StatelessWidget {
 
   const MatchesColumn({
     Key? key,
+    required this.refreshTicker,
+    required this.scrollMatchPageToTop,
     required this.matches,
     required this.tickersOfMatches,
     required this.players,
@@ -92,6 +97,8 @@ class MatchesColumn extends StatelessWidget {
 
       widgets.add(
         MatchContainer(
+          refreshTicker: refreshTicker,
+          scrollMatchPageToTop: scrollMatchPageToTop,
           match: matches[i],
           ticker: tickerOfMatch,
           players: players,
@@ -108,6 +115,9 @@ class MatchesColumn extends StatelessWidget {
 }
 
 class MatchContainer extends StatefulWidget {
+  final Future<void> Function(BuildContext context, MatchModel? match)?
+      refreshTicker;
+  final Function()? scrollMatchPageToTop;
   final MatchModel match;
   final List<TickerModel> ticker;
   final List<PlayerModel> players;
@@ -119,6 +129,8 @@ class MatchContainer extends StatefulWidget {
 
   const MatchContainer({
     Key? key,
+    required this.refreshTicker,
+    required this.scrollMatchPageToTop,
     required this.match,
     required this.ticker,
     required this.players,
@@ -149,6 +161,16 @@ class _MatchContainerState extends State<MatchContainer> {
                 players: widget.players,
               ),
             ),
+          ).then(
+            (value) {
+              if (widget.refreshTicker != null) {
+                widget.refreshTicker!(context,
+                    widget.match.isLivetickerTime() ? widget.match : null);
+              }
+              if (widget.scrollMatchPageToTop != null) {
+                widget.scrollMatchPageToTop!();
+              }
+            },
           );
         },
         child: buildMatchContainer());
