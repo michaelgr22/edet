@@ -59,7 +59,7 @@ class MatchModel {
 
   bool isLive() {
     final DateTime now = DateTime.now();
-    const int gameDurationMinutes = 105;
+    const int gameDurationMinutes = 115;
 
     if (now.isAfter(dateTime) &&
         now.isBefore(
