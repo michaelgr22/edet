@@ -57,7 +57,7 @@ class MatchModel {
     return false;
   }
 
-  static MatchModel? findLiveMatch(List<MatchModel> matches) {
+  static MatchModel? findCurrentLiveTickerMatch(List<MatchModel> matches) {
     List<MatchModel> liveMatches =
         matches.where((match) => match.isLivetickerTime()).toList();
     return liveMatches.isNotEmpty ? liveMatches.first : null;

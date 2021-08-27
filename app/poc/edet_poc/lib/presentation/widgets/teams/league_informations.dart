@@ -4,6 +4,7 @@ import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/standings_row_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
+import 'package:edet_poc/data/repositories/ticker_repository.dart';
 import 'package:edet_poc/presentation/pages/league_informations_page.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_headline.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 
 class LeagueInformations extends StatefulWidget {
   final Future<void> Function(BuildContext context) refreshTeamsInformations;
+  final TickerRepository tickerRepository;
   final LeagueModel league;
   final List<StandingsRowModel> standings;
   final List<MatchModel> leagueMatches;
@@ -21,6 +23,7 @@ class LeagueInformations extends StatefulWidget {
   const LeagueInformations({
     Key? key,
     required this.refreshTeamsInformations,
+    required this.tickerRepository,
     required this.league,
     required this.standings,
     required this.leagueMatches,
@@ -46,6 +49,7 @@ class _LeagueInformationsState extends State<LeagueInformations> {
             context,
             MaterialPageRoute(
               builder: (_) => LeagueInformationsPage(
+                tickerRepository: widget.tickerRepository,
                 league: widget.league,
                 standings: widget.standings,
                 leagueMatches: widget.leagueMatches,

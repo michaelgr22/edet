@@ -47,7 +47,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             MaterialPageRoute(
               builder: (_) => MatchesInformationsPage(
                 tickerRepository: widget.tickerRepository,
-                teamMatches: widget.teamMatches,
+                matches: widget.teamMatches,
                 tickersOfMatches: widget.tickersOfMatches,
                 players: widget.players,
                 league: widget.league,

@@ -40,6 +40,7 @@ class TeamsTabLoaded extends StatelessWidget {
         children: [
           LeagueInformations(
             refreshTeamsInformations: refreshTeamsInformations,
+            tickerRepository: tickerRepository,
             league: league,
             standings: standings,
             leagueMatches: leagueMatches,

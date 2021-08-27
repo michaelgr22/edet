@@ -6,104 +6,35 @@ import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
 import 'package:edet_poc/data/models/ticker_model.dart';
 import 'package:edet_poc/data/repositories/ticker_repository.dart';
-import 'package:edet_poc/presentation/widgets/global/global_app_bar.dart';
+import 'package:edet_poc/presentation/pages/informations_page_interface.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_container_boilerplate.dart';
 import 'package:edet_poc/presentation/widgets/teams/informations_page/informations_page_headline.dart';
 import 'package:edet_poc/presentation/widgets/teams/matches_column.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
-class MatchesInformationsPage extends StatefulWidget {
-  final TickerRepository tickerRepository;
-  final LeagueModel league;
-  final List<MatchModel> teamMatches;
-  final List<TickerModel> tickersOfMatches;
-  final List<PlayerModel> players;
-
+class MatchesInformationsPage extends InformationsPage
+    implements IInformationsPage {
   MatchesInformationsPage({
     Key? key,
-    required this.tickerRepository,
-    required this.teamMatches,
-    required this.tickersOfMatches,
-    required this.league,
-    required this.players,
-  }) : super(key: key);
-
-  @override
-  State<MatchesInformationsPage> createState() =>
-      _MatchesInformationsPageState();
-}
-
-class _MatchesInformationsPageState extends State<MatchesInformationsPage> {
-  final List<Tab> _tabs = appbarTaps.map((tab) => Tab(text: tab)).toList();
-
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        final MatchModel? liveMatch =
-            MatchModel.findCurrentLiveTickerMatch(widget.teamMatches);
-        if (liveMatch != null) {
-          return TickerCubit(widget.tickerRepository)..getTicker(liveMatch.id);
-        } else {
-          return TickerCubit(widget.tickerRepository)..getTicker(null);
-        }
-      },
-      child: BlocBuilder<TickerCubit, TickerState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(submenuAppBarSize),
-              child: GlobalAppBar(
-                tabs: _tabs,
-                showTabBar: false,
-              ),
-            ),
-            body: Container(
-              color: greyBackgroundColor,
-              child: stateManager(state),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget buildBodyLoaded(List<TickerModel> tickersOfMatches) {
-    return ListView(
-      controller: _scrollController,
-      children: [
-        InformationsPageHeadline(
-          headline: 'Spiele TSV',
-          season: widget.league.leagueSeason,
-        ),
-        TeamMatchesContainer(
-          refreshTicker: _refreshTicker,
-          scrollMatchPageToTop: _scrollToTop,
-          teamMatches: widget.teamMatches,
+    required TickerRepository tickerRepository,
+    required LeagueModel league,
+    required List<MatchModel> matches,
+    required List<TickerModel> tickersOfMatches,
+    required List<PlayerModel> players,
+  }) : super(
+          key: key,
+          tickerRepository: tickerRepository,
+          league: league,
+          matches: matches,
           tickersOfMatches: tickersOfMatches,
-          players: widget.players,
-        ),
-      ],
-    );
-  }
+          players: players,
+        );
 
-  Widget buildbodyLoading() {
-    return ListView(
-      children: [
-        InformationsPageHeadline(
-          headline: 'Spiele TSV',
-          season: widget.league.leagueSeason,
-        ),
-        const InformationsPageContainerBoilerplate(
-          child: SizedBox(
-            height: 1000.0,
-          ),
-        ),
-      ],
+  @override
+  Widget buildBody(TickerState state) {
+    return Container(
+      color: greyBackgroundColor,
+      child: stateManager(state),
     );
   }
 
@@ -122,17 +53,39 @@ class _MatchesInformationsPageState extends State<MatchesInformationsPage> {
     }
   }
 
-  Future<void> _refreshTicker(BuildContext context, MatchModel? match) async {
-    if (match != null) {
-      context.read<TickerCubit>().getTicker(match.id);
-    } else {
-      context.read<TickerCubit>().getTicker(null);
-    }
+  Widget buildBodyLoaded(List<TickerModel> tickersOfMatches) {
+    return ListView(
+      controller: scrollController,
+      children: [
+        InformationsPageHeadline(
+          headline: 'Spiele TSV',
+          season: league.leagueSeason,
+        ),
+        TeamMatchesContainer(
+          refreshTicker: refreshTicker,
+          scrollMatchPageToTop: scrollToTop,
+          teamMatches: matches,
+          tickersOfMatches: tickersOfMatches,
+          players: players,
+        ),
+      ],
+    );
   }
 
-  void _scrollToTop() {
-    _scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 100), curve: Curves.linear);
+  Widget buildbodyLoading() {
+    return ListView(
+      children: [
+        InformationsPageHeadline(
+          headline: 'Spiele TSV',
+          season: league.leagueSeason,
+        ),
+        const InformationsPageContainerBoilerplate(
+          child: SizedBox(
+            height: 1000.0,
+          ),
+        ),
+      ],
+    );
   }
 }
 
