@@ -125,6 +125,10 @@ class MatchRow extends StatelessWidget {
   }
 
   Color chooseColor() {
+    if (match.isLive() && !isDetailsPage) {
+      return Colors.yellow;
+    }
+
     int goalsTSV;
     int goalsOther;
 
@@ -135,21 +139,13 @@ class MatchRow extends StatelessWidget {
       goalsTSV = match.awayGoals;
       goalsOther = match.homeGoals;
     }
-
     if (goalsTSV > goalsOther) return Colors.green;
     if (goalsTSV < goalsOther) return Colors.red;
     return const Color(0xFFDCDCDC);
   }
 
   bool showTickerResult(MatchModel match) {
-    final DateTime now = DateTime.now();
-    final DateTime today = DateTime(now.year, now.month, now.day);
-
-    if (now.isAfter(match.dateTime) &&
-        today ==
-            DateTime(match.dateTime.year, match.dateTime.month,
-                match.dateTime.day) &&
-        ticker.isNotEmpty) {
+    if (match.isLivetickerTime() && ticker.isNotEmpty) {
       return true;
     }
     return false;
@@ -164,6 +160,10 @@ class MatchRow extends StatelessWidget {
   }
 
   Widget buildResult(MatchModel match) {
+    if (match.isLive() && !isDetailsPage) {
+      return buildResultText('LIVE');
+    }
+
     int homeGoals = match.homeGoals;
     int awayGoals = match.awayGoals;
 

@@ -9,6 +9,8 @@ import 'package:edet_poc/presentation/widgets/teams/liveticker/liveticker_row.da
 import 'package:edet_poc/presentation/widgets/teams/match_row.dart';
 import 'package:edet_poc/presentation/widgets/teams/row_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class MatchDetailsPageLoaded extends StatelessWidget {
   final Future<void> Function(BuildContext context) refreshTicker;
@@ -32,16 +34,20 @@ class MatchDetailsPageLoaded extends StatelessWidget {
       color: greyBackgroundColor,
       child: RefreshIndicator(
         onRefresh: () => refreshTicker(context),
-        child: ListView(children: [
-          buildMatchResultContainer(),
-          LiveTicker(
-            refreshTicker: refreshTicker,
-            ticker: ticker,
-            match: match,
-            actions: actions,
-            players: players,
-          ),
-        ]),
+        child: ListView(
+          children: [
+            buildMatchResultContainer(),
+            DateTime.now().isAfter(match.dateTime)
+                ? LiveTicker(
+                    refreshTicker: refreshTicker,
+                    ticker: ticker,
+                    match: match,
+                    actions: actions,
+                    players: players,
+                  )
+                : buildInfoContainer(context),
+          ],
+        ),
       ),
     );
   }
@@ -65,6 +71,43 @@ class MatchDetailsPageLoaded extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  Widget buildInfoContainer(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(defaultContainerPadding),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Text(
+              "Anstoß am " +
+                  kickingOffDate(context) +
+                  " um " +
+                  kickingOffTime(context) +
+                  " Uhr",
+              style:
+                  const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String kickingOffDate(BuildContext context) {
+    initializeDateFormatting();
+    String languageCode = Localizations.localeOf(context).languageCode;
+    String dateTime =
+        DateFormat("dd.MM.yy", languageCode).format(match.dateTime);
+    return dateTime;
+  }
+
+  String kickingOffTime(BuildContext context) {
+    initializeDateFormatting();
+    String languageCode = Localizations.localeOf(context).languageCode;
+    String dateTime = DateFormat("kk:mm", languageCode).format(match.dateTime);
+    return dateTime;
   }
 }
 

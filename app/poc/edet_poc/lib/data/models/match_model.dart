@@ -57,6 +57,21 @@ class MatchModel {
     return false;
   }
 
+  bool isLive() {
+    final DateTime now = DateTime.now();
+    const int gameDurationMinutes = 105;
+
+    if (now.isAfter(dateTime) &&
+        now.isBefore(
+          dateTime.add(
+            const Duration(minutes: gameDurationMinutes),
+          ),
+        )) {
+      return true;
+    }
+    return false;
+  }
+
   static MatchModel? findCurrentLiveTickerMatch(List<MatchModel> matches) {
     List<MatchModel> liveMatches =
         matches.where((match) => match.isLivetickerTime()).toList();
