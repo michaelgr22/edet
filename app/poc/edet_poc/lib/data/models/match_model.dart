@@ -62,4 +62,16 @@ class MatchModel {
         matches.where((match) => match.isLivetickerTime()).toList();
     return liveMatches.isNotEmpty ? liveMatches.first : null;
   }
+
+  static List<MatchModel> findMatchesOnThisDay(List<MatchModel> matches) {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+
+    return matches
+        .where((match) =>
+            today ==
+            DateTime(
+                match.dateTime.year, match.dateTime.month, match.dateTime.day))
+        .toList();
+  }
 }

@@ -45,7 +45,7 @@ class _MatchesInformationsPageState extends State<MatchesInformationsPage> {
     return BlocProvider(
       create: (_) {
         final MatchModel? liveMatch =
-            MatchModel.findLiveMatch(widget.teamMatches);
+            MatchModel.findCurrentLiveTickerMatch(widget.teamMatches);
         if (liveMatch != null) {
           return TickerCubit(widget.tickerRepository)..getTicker(liveMatch.id);
         } else {

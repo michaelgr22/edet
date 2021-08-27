@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:edet_poc/core/errors/exceptions.dart';
-import 'package:edet_poc/core/helpers/matches_helper.dart';
 import 'package:edet_poc/data/models/league_model.dart';
 import 'package:edet_poc/data/models/match_model.dart';
 import 'package:edet_poc/data/models/player_model.dart';
@@ -34,7 +33,7 @@ class TeamsCubit extends Cubit<TeamsState> {
       final List<PlayerModel> players = await _fupaRepository.getPlayers();
 
       List<MatchModel> matchesOnThisDay =
-          MatchesHelper.findMatchesOnThisDay(leagueMatches + teamMatches);
+          MatchModel.findMatchesOnThisDay(leagueMatches + teamMatches);
       List<TickerModel> tickersToday = [];
 
       for (var match in matchesOnThisDay) {
