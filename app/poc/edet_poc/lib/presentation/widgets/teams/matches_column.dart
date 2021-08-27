@@ -13,6 +13,7 @@ class MatchesColumn extends StatelessWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)?
       refreshTicker;
   final Function()? scrollMatchPageToTop;
+  final Function(int index)? scrollMatchPageToIndex;
   final List<MatchModel> matches;
   final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
@@ -27,6 +28,7 @@ class MatchesColumn extends StatelessWidget {
     Key? key,
     required this.refreshTicker,
     required this.scrollMatchPageToTop,
+    required this.scrollMatchPageToIndex,
     required this.matches,
     required this.tickersOfMatches,
     required this.players,
@@ -99,7 +101,9 @@ class MatchesColumn extends StatelessWidget {
         MatchContainer(
           refreshTicker: refreshTicker,
           scrollMatchPageToTop: scrollMatchPageToTop,
+          scrollMatchPageToIndex: scrollMatchPageToIndex,
           match: matches[i],
+          indexOfMatch: i,
           ticker: tickerOfMatch,
           players: players,
           rowHeight: rowHeight,
@@ -118,7 +122,9 @@ class MatchContainer extends StatefulWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)?
       refreshTicker;
   final Function()? scrollMatchPageToTop;
+  final Function(int index)? scrollMatchPageToIndex;
   final MatchModel match;
+  final int indexOfMatch;
   final List<TickerModel> ticker;
   final List<PlayerModel> players;
   final double? rowHeight;
@@ -131,7 +137,9 @@ class MatchContainer extends StatefulWidget {
     Key? key,
     required this.refreshTicker,
     required this.scrollMatchPageToTop,
+    required this.scrollMatchPageToIndex,
     required this.match,
+    required this.indexOfMatch,
     required this.ticker,
     required this.players,
     required this.rowHeight,
@@ -167,8 +175,8 @@ class _MatchContainerState extends State<MatchContainer> {
                 widget.refreshTicker!(context,
                     widget.match.isLivetickerTime() ? widget.match : null);
               }
-              if (widget.scrollMatchPageToTop != null) {
-                widget.scrollMatchPageToTop!();
+              if (widget.scrollMatchPageToIndex != null) {
+                widget.scrollMatchPageToIndex!(widget.indexOfMatch);
               }
             },
           );

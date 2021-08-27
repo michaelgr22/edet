@@ -33,6 +33,7 @@ class MatchDetailsPageLoaded extends StatelessWidget {
     return Container(
       color: greyBackgroundColor,
       child: RefreshIndicator(
+        color: Colors.black,
         onRefresh: () => refreshTicker(context),
         child: ListView(
           children: [
@@ -78,9 +79,10 @@ class MatchDetailsPageLoaded extends StatelessWidget {
       padding: const EdgeInsets.all(defaultContainerPadding),
       child: Container(
         color: Colors.white,
-        child: Column(
-          children: [
-            Text(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Center(
+            child: Text(
               "Anstoß am " +
                   kickingOffDate(context) +
                   " um " +
@@ -89,7 +91,7 @@ class MatchDetailsPageLoaded extends StatelessWidget {
               style:
                   const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
             ),
-          ],
+          ),
         ),
       ),
     );

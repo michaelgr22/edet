@@ -64,6 +64,7 @@ class MatchesInformationsPage extends InformationsPage
         TeamMatchesContainer(
           refreshTicker: refreshTicker,
           scrollMatchPageToTop: scrollToTop,
+          scrollMatchPageToIndex: scrollToIndex,
           teamMatches: matches,
           tickersOfMatches: tickersOfMatches,
           players: players,
@@ -93,6 +94,7 @@ class TeamMatchesContainer extends StatelessWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)
       refreshTicker;
   final Function() scrollMatchPageToTop;
+  final Function(int index)? scrollMatchPageToIndex;
   final List<MatchModel> teamMatches;
   final List<TickerModel> tickersOfMatches;
   final List<PlayerModel> players;
@@ -101,6 +103,7 @@ class TeamMatchesContainer extends StatelessWidget {
     Key? key,
     required this.refreshTicker,
     required this.scrollMatchPageToTop,
+    required this.scrollMatchPageToIndex,
     required this.teamMatches,
     required this.tickersOfMatches,
     required this.players,
@@ -112,6 +115,7 @@ class TeamMatchesContainer extends StatelessWidget {
       child: MatchesColumn(
         refreshTicker: refreshTicker,
         scrollMatchPageToTop: scrollMatchPageToTop,
+        scrollMatchPageToIndex: scrollMatchPageToIndex,
         matches: teamMatches,
         tickersOfMatches: tickersOfMatches,
         players: players,

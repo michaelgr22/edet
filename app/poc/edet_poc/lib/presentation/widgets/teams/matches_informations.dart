@@ -61,6 +61,7 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             MatchesColumn(
               refreshTicker: null,
               scrollMatchPageToTop: null,
+              scrollMatchPageToIndex: null,
               matches: widget.teamMatches,
               tickersOfMatches: widget.tickersOfMatches,
               players: widget.players,

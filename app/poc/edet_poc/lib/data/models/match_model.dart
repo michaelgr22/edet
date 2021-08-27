@@ -1,3 +1,5 @@
+import 'package:edet_poc/data/models/ticker_model.dart';
+
 class MatchModel {
   final int id;
   final DateTime dateTime;

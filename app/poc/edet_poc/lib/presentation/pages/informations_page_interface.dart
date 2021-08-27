@@ -73,6 +73,12 @@ class InformationsPage extends StatelessWidget {
         duration: const Duration(milliseconds: 100), curve: Curves.linear);
   }
 
+  void scrollToIndex(int index) {
+    const double height = 500.0;
+    scrollController.animateTo(index * height,
+        duration: const Duration(milliseconds: 100), curve: Curves.linear);
+  }
+
   Widget buildBody(TickerState state) {
     return const SizedBox(
       width: 0.0,

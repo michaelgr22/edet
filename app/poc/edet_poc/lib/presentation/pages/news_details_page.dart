@@ -39,11 +39,7 @@ class NewsDetailsPage extends StatelessWidget {
 
   Widget stateManager(NewsDetailsState state) {
     if (state is NewsDetailsStateInitial || state is NewsDetailsStateLoading) {
-      return const Center(
-        child: CircularProgressIndicator(
-          backgroundColor: blackBackgroundColor,
-        ),
-      );
+      return buildNewsDetailsLoading();
     } else if (state is NewsDetailsStateLoaded) {
       return NewsDetails(newsItem: state.newsItem);
     } else if (state is NewsDetailsStateError) {
@@ -54,5 +50,16 @@ class NewsDetailsPage extends StatelessWidget {
     } else {
       throw UndefinedStateException();
     }
+  }
+
+  Widget buildNewsDetailsLoading() {
+    return ListView(
+      children: [
+        Container(
+          height: 2000,
+          color: Colors.white,
+        )
+      ],
+    );
   }
 }

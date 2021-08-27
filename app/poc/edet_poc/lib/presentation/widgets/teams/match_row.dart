@@ -129,15 +129,23 @@ class MatchRow extends StatelessWidget {
       return Colors.yellow;
     }
 
+    int homeGoals = match.homeGoals;
+    int awayGoals = match.awayGoals;
+
+    if (showTickerResult(match)) {
+      homeGoals = countTickerGoalsOfTeam(match.homeTeamId);
+      awayGoals = countTickerGoalsOfTeam(match.awayTeamId);
+    }
+
     int goalsTSV;
     int goalsOther;
 
     if (match.homeTeamShowname.contains('Meckenhausen')) {
-      goalsTSV = match.homeGoals;
-      goalsOther = match.awayGoals;
+      goalsTSV = homeGoals;
+      goalsOther = awayGoals;
     } else {
-      goalsTSV = match.awayGoals;
-      goalsOther = match.homeGoals;
+      goalsTSV = awayGoals;
+      goalsOther = homeGoals;
     }
     if (goalsTSV > goalsOther) return Colors.green;
     if (goalsTSV < goalsOther) return Colors.red;
