@@ -63,7 +63,6 @@ class MatchesInformationsPage extends InformationsPage
         ),
         TeamMatchesContainer(
           refreshTicker: refreshTicker,
-          scrollMatchPageToTop: scrollToTop,
           scrollMatchPageToIndex: scrollToIndex,
           teamMatches: matches,
           tickersOfMatches: tickersOfMatches,
@@ -75,6 +74,7 @@ class MatchesInformationsPage extends InformationsPage
 
   Widget buildbodyLoading() {
     return ListView(
+      controller: scrollController,
       children: [
         InformationsPageHeadline(
           headline: 'Spiele TSV',
@@ -82,7 +82,7 @@ class MatchesInformationsPage extends InformationsPage
         ),
         const InformationsPageContainerBoilerplate(
           child: SizedBox(
-            height: 1000.0,
+            height: 10000.0,
           ),
         ),
       ],
@@ -93,7 +93,6 @@ class MatchesInformationsPage extends InformationsPage
 class TeamMatchesContainer extends StatelessWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)
       refreshTicker;
-  final Function() scrollMatchPageToTop;
   final Function(int index)? scrollMatchPageToIndex;
   final List<MatchModel> teamMatches;
   final List<TickerModel> tickersOfMatches;
@@ -102,7 +101,6 @@ class TeamMatchesContainer extends StatelessWidget {
   const TeamMatchesContainer({
     Key? key,
     required this.refreshTicker,
-    required this.scrollMatchPageToTop,
     required this.scrollMatchPageToIndex,
     required this.teamMatches,
     required this.tickersOfMatches,
@@ -114,7 +112,6 @@ class TeamMatchesContainer extends StatelessWidget {
     return InformationsPageContainerBoilerplate(
       child: MatchesColumn(
         refreshTicker: refreshTicker,
-        scrollMatchPageToTop: scrollMatchPageToTop,
         scrollMatchPageToIndex: scrollMatchPageToIndex,
         matches: teamMatches,
         tickersOfMatches: tickersOfMatches,

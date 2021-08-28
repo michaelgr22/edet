@@ -12,7 +12,6 @@ import 'package:intl/date_symbol_data_local.dart';
 class MatchesColumn extends StatelessWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)?
       refreshTicker;
-  final Function()? scrollMatchPageToTop;
   final Function(int index)? scrollMatchPageToIndex;
   final List<MatchModel> matches;
   final List<TickerModel> tickersOfMatches;
@@ -27,7 +26,6 @@ class MatchesColumn extends StatelessWidget {
   const MatchesColumn({
     Key? key,
     required this.refreshTicker,
-    required this.scrollMatchPageToTop,
     required this.scrollMatchPageToIndex,
     required this.matches,
     required this.tickersOfMatches,
@@ -100,7 +98,6 @@ class MatchesColumn extends StatelessWidget {
       widgets.add(
         MatchContainer(
           refreshTicker: refreshTicker,
-          scrollMatchPageToTop: scrollMatchPageToTop,
           scrollMatchPageToIndex: scrollMatchPageToIndex,
           match: matches[i],
           indexOfMatch: i,
@@ -121,7 +118,6 @@ class MatchesColumn extends StatelessWidget {
 class MatchContainer extends StatefulWidget {
   final Future<void> Function(BuildContext context, MatchModel? match)?
       refreshTicker;
-  final Function()? scrollMatchPageToTop;
   final Function(int index)? scrollMatchPageToIndex;
   final MatchModel match;
   final int indexOfMatch;
@@ -136,7 +132,6 @@ class MatchContainer extends StatefulWidget {
   const MatchContainer({
     Key? key,
     required this.refreshTicker,
-    required this.scrollMatchPageToTop,
     required this.scrollMatchPageToIndex,
     required this.match,
     required this.indexOfMatch,
@@ -170,9 +165,9 @@ class _MatchContainerState extends State<MatchContainer> {
               ),
             ),
           ).then(
-            (value) {
+            (value) async {
               if (widget.refreshTicker != null) {
-                widget.refreshTicker!(context,
+                await widget.refreshTicker!(context,
                     widget.match.isLivetickerTime() ? widget.match : null);
               }
               if (widget.scrollMatchPageToIndex != null) {

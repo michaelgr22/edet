@@ -60,7 +60,6 @@ class _MatchesInformationsState extends State<MatchesInformations> {
             const InformationsHeadline(headline: 'SPIELE'),
             MatchesColumn(
               refreshTicker: null,
-              scrollMatchPageToTop: null,
               scrollMatchPageToIndex: null,
               matches: widget.teamMatches,
               tickersOfMatches: widget.tickersOfMatches,

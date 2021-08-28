@@ -68,15 +68,10 @@ class InformationsPage extends StatelessWidget {
     }
   }
 
-  void scrollToTop() {
-    scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 100), curve: Curves.linear);
-  }
-
   void scrollToIndex(int index) {
-    const double height = 500.0;
+    const double height = 100.0;
     scrollController.animateTo(index * height,
-        duration: const Duration(milliseconds: 100), curve: Curves.linear);
+        duration: const Duration(milliseconds: 10), curve: Curves.linear);
   }
 
   Widget buildBody(TickerState state) {
