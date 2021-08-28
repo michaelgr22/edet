@@ -97,7 +97,7 @@ class LiveTickerRow extends StatelessWidget {
       widgets.add(buildText(properties['content_detail_extra'], 13.5, null));
     }
 
-    if (tickerEntry.comment != null) {
+    if (tickerEntry.comment != null && tickerEntry.comment!.isNotEmpty) {
       widgets.add(const RowDivider(height: 3.0));
       widgets.add(buildText(tickerEntry.comment, 12.5, null));
     }

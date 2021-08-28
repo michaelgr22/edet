@@ -183,7 +183,10 @@ class _LiveTickerState extends State<LiveTicker> {
               isVisible: showAddFields,
             ),
             buildAddButton(),
-            ...buildTicker()
+            ...buildTicker(),
+            const SizedBox(
+              height: 30.0,
+            ),
           ],
         ),
       ),
