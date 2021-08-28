@@ -75,11 +75,11 @@ class LeagueInformationsStandingsRow extends StatelessWidget {
           buildSizedBoxDivider(),
           buildTableTextFields(20.0, standingsRow.games.toString()),
           buildSizedBoxDivider(),
-          buildTableTextFields(42.0,
+          buildTableTextFields(45.0,
               "${standingsRow.wins}-${standingsRow.draws}-${standingsRow.loses}"),
           buildSizedBoxDivider(),
           buildTableTextFields(
-              25.0, "${standingsRow.goals}:${standingsRow.counteredGoals}"),
+              33.0, "${standingsRow.goals}:${standingsRow.counteredGoals}"),
           buildSizedBoxDivider(),
           /*buildTableTextFields(
               22.0, "${standingsRow.goals - standingsRow.counteredGoals}"),
