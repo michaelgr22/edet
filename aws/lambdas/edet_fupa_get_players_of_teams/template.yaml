@@ -42,7 +42,7 @@ Resources:
           Properties:
             Name: !Sub "edet-fupa-get-players-of-teams-${stage}-scheduledevent"
             Description: scheduled event to fetch players of teams
-            Schedule: cron(0 04 * * ? *)
+            Schedule: cron(0 */2 * * ? *)
     Metadata:
       DockerTag: python3.7-v1
       DockerContext: ./edet_fupa_get_players_of_teams

@@ -42,7 +42,7 @@ Resources:
           Properties:
             Name: !Sub "edet-fupa-get-matches-of-teams-${stage}-scheduledevent"
             Description: scheduled event to fetch matches of teams
-            Schedule: cron(45 03 * * ? *)
+            Schedule: cron(0 */2 * * ? *)
     Metadata:
       DockerTag: python3.7-v1
       DockerContext: ./edet_fupa_get_matches_of_teams
