@@ -1,0 +1,50 @@
+name: edet
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.3
+  flutter_bloc: ^7.1.0
+  mockito: ^5.0.4
+  build_runner: ^2.1.1
+  intl: ^0.17.0
+  flutter_html: ^2.1.1
+  flutter_launcher_icons: ^0.9.1
+
+
+
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^1.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/tsv_icon.png"
+
+
+# The following section is specific to Flutter.
+flutter:
+  assets:
+   - assets/images/
+   - assets/icons/
+   - assets/icons/liveticker/
+  uses-material-design: true
+

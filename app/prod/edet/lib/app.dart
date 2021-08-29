@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+
+import 'package:edet/presentation/pages/home_page.dart';
+import 'package:edet/presentation/pages/news_details_page.dart';
+import 'package:edet/core/errors/exceptions.dart';
+
+class App extends StatelessWidget {
+  static const String _title = 'edet';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: _title,
+      theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: HomePage(),
+      onGenerateRoute: routes,
+    );
+  }
+
+  Route routes(RouteSettings settings) {
+    final String id = settings.name!.split('/').last;
+    if (settings.name == '/') {
+      return MaterialPageRoute(
+        builder: (context) {
+          return HomePage();
+        },
+      );
+    } else if (settings.name!.startsWith('/news')) {
+      return MaterialPageRoute(
+        builder: (context) {
+          return NewsDetailsPage(
+            newsId: int.parse(id),
+          );
+        },
+      );
+    } else {
+      throw UndefiniedRouteException();
+    }
+  }
+}
