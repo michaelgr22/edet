@@ -155,11 +155,11 @@ class LiveTickerRow extends StatelessWidget {
           return <String, String>{
             'icon_path': livetickerIconsPath + 'arrows.png',
             'content': 'Wechsel bei ${tickerEntry.teamShowname}',
-            'content_detail': (tickerEntry.player1Id != null
-                    ? 'Für ${tickerEntry.player1Firstname} ${tickerEntry.player1Lastname}'
+            'content_detail': (tickerEntry.player2Id != null
+                    ? '${tickerEntry.player2Firstname} ${tickerEntry.player2Lastname} kommt ins Spiel'
                     : '') +
-                (tickerEntry.player2Id != null
-                    ? ' kommt ${tickerEntry.player2Firstname} ${tickerEntry.player2Lastname} ins Spiel'
+                (tickerEntry.player1Id != null
+                    ? ' für ${tickerEntry.player1Firstname} ${tickerEntry.player1Lastname}'
                     : ''),
             'content_detail_extra': ''
           };
